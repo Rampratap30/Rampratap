@@ -1,32 +1,27 @@
 package com.collection;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Fail_Safe {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		/*
-		 * ConcurrentHashMap<String,Integer> chm = new ConcurrentHashMap<String,
-		 * Integer>();
-		 * 
-		 * chm.put("Dell", 1); chm.put("Sony", 2);
-		 * 
-		 * //Getting an Iterator from map Iterator<String> itr =
-		 * chm.keySet().iterator();
-		 * 
-		 * while(itr.hasNext()){ String key = (String)itr.next();
-		 * 
-		 * System.out.println(key+" " + chm.get(key)); chm.put("Lenovo", 3); }
-		 */
-		
+
+		ConcurrentHashMap<String, Integer> chm = new ConcurrentHashMap<String, Integer>();
+
+		chm.put("Dell", 1);
+		chm.put("Sony", 2);
+
+		//Getting an Iterator from map
+		Iterator<String> itr = chm.keySet().iterator();
+
+		while (itr.hasNext()) {
+			String key = (String) itr.next();
+			System.out.println(key + " " + chm.get(key));
+			chm.put("Lenovo", 3);
+		}
+
 		
 		Integer[] a = {3, 2, 1, 1, 2};
 		List<Integer> l = new LinkedList<Integer>();
@@ -64,7 +59,7 @@ public class Fail_Safe {
 		    l2.add(i);
 		}
 		for(Integer j: l2) {
-		    System.out.print(" " + j);
+		   // System.out.print(" " + j);
 		}
 		
 	}

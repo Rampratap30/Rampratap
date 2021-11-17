@@ -12,16 +12,16 @@ public class AllZeroShift {
 	    
 	    moveZerosToEnd(arr,  n);
 	    
-	    System.out.print("\nModifed array: "); 
-	    printArray(arr, n);
+	    //System.out.print("\nModifed array: ");
+	    //printArray(arr, n);
 		
 	}
 	
 	// function to print the array elements 
-	static void printArray(int arr[], int n) { 
+	/*static void printArray(int arr[], int n) {
 	    for (int i = 0; i < n; i++) 
 	    System.out.print(arr[i] + " "); 
-	} 
+	}*/
 	
 	// the end of array 
 	static void moveZerosToEnd(int arr[], int n) { 
@@ -39,9 +39,12 @@ public class AllZeroShift {
 	        temp = arr[count]; 
 	        arr[count] = arr[i]; 
 	        arr[i] = temp; 
-	        count = count + 1; 
-	    } 
-	    } 
+	        count++;
+	    }
+			//System.out.print(arr[i] + " ");
+	    }
+		for (int i = 0; i < n; i++)
+			System.out.print(arr[i] + " ");
 	} 
 
 }
