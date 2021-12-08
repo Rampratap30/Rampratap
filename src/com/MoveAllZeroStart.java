@@ -18,10 +18,10 @@ public class MoveAllZeroStart {
                 }
             }
         }
-       // System.out.println(Arrays.asList(fullArray).toString());
+        System.out.print(Arrays.asList(fullArray).toString());
+        System.out.println("");
 
-
-        int[] num={1,2,3,0,0,0,4,5};
+        int[] num={1,2,5,0,0,0,4,3};
         for(int i=0;i<num.length;i++){
             if(num[i]==0){
                 int k=num[i];

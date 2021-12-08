@@ -11,7 +11,9 @@ public class AllZeroShift {
 		 */
 	    
 	    moveZerosToEnd(arr,  n);
-	    
+
+		for (int i = 0; i < n; i++)
+			System.out.print(arr[i] + " ");
 	    //System.out.print("\nModifed array: ");
 	    //printArray(arr, n);
 		
@@ -35,7 +37,7 @@ public class AllZeroShift {
 	    // index 'count' with the element at  
 	    // index 'i' 
 	    for (int i = 0; i < n; i++) { 
-	    if (arr[i] != 0) { 
+	    if (arr[i] != 0) {
 	        temp = arr[count]; 
 	        arr[count] = arr[i]; 
 	        arr[i] = temp; 
@@ -43,8 +45,7 @@ public class AllZeroShift {
 	    }
 			//System.out.print(arr[i] + " ");
 	    }
-		for (int i = 0; i < n; i++)
-			System.out.print(arr[i] + " ");
+
 	} 
 
 }
