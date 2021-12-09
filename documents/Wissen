@@ -1,0 +1,27 @@
+https://stackoverflow.com/questions/65115200/hackerearth-question-solution-failing-for-the-input-testcase
+
+public static farthestfromzero(int N, int [] Arr) {
+    TreeSet<Integer> ts = new TreeSet<Integer>();
+    for (int i=0; i<N; i++){
+          ts.add(Arr[i]);
+    }
+  return ts.last();
+}
+
+public static int farthestfromzero(int N, int [] Arr) {
+    TreeSet<Integer> ts = new TreeSet<Integer>();
+    for (int i=0; i<N; i++){
+          ts.add(Arr[i]);
+    }
+  int maxV = ts.last();
+  int minV = ts.first();
+
+  if(Math.abs(minV) >= maxV){
+      return minV;
+  }
+  return maxV;
+
+}
+
+SQL
+https://stackoverflow.com/questions/68874950/how-to-print-child-father-mother-from-these-two-tables
