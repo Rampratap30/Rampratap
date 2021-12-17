@@ -29,14 +29,13 @@ public class Employee {
 	@Override
 	public int hashCode() {
 		
-		
 		int result = 1;
 		final int prime = 31;
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		 
 
-		return this.id;
+		return 0;
 	}
 
 	@Override

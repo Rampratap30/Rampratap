@@ -8,8 +8,8 @@ public class HashingExample {
 		// TODO Auto-generated method stub
 		
 		Employee emp1 = new Employee(1, "Ram");
-		Employee emp2 = new Employee(1, "Sohita");
-		Employee emp3 = new Employee(1, "Aadya");
+		Employee emp2 = new Employee(2, "Sohita");
+		Employee emp3 = new Employee(3, "Aadya");
 		Employee emp4 = new Employee(4, "Aadvik");
 		
 		HashSet<Employee> sset=new HashSet<Employee>();
