@@ -3,7 +3,7 @@ package com.program;
 public class BubbleSortString {
 
 	public static void main(String[] args) {
-		/*String str[] = { "AB", "ABC", "AB", "ABCD", "ABC"};
+		String str[] = { "AB", "ABC", "AB", "ABCD", "ABC"};
 		String temp;
 		System.out.println("Strings in sorted order:");
 		for (int j = 0; j < str.length; j++) {
@@ -16,7 +16,7 @@ public class BubbleSortString {
 			}
 		   }
 		   System.out.println(str[j]);
-		}*/
+		}
 		
 		int arr[] = {120,110,100,19};
 		int temps = 0;
@@ -25,7 +25,7 @@ public class BubbleSortString {
 		System.out.println("Integer in sorted order ::");
 		for(int i= 0; i<n;i++) {
 			for(int j = 1; j<(n-i);j++) {
-				if(arr[j-1]>arr[j]) {
+				if(arr[j-1]<arr[j]) {
 					temps = arr[j-1];
 					arr[j-1] = arr[j];
 					arr[j] = temps;					

@@ -5,9 +5,9 @@ import java.util.Comparator;
 
 public class LongestEvenLength {
     public static void main(String[] args) {
-        String sentence = "this is a sample input for the problem";
+        String sentence = "problem input for the sample";
 
-        /*String arr[] = sentence.split("\\s+");
+        String arr[] = sentence.split("\\s+");
 
         int len = 0;
         String word = "";
@@ -20,7 +20,7 @@ public class LongestEvenLength {
                 }
             }
         }
-        System.out.println(word);*/
+        System.out.println(word);
 
         String longestWord = Arrays.stream(sentence.split(" ")) // creates the stream with words
                 .filter(s -> s.length() % 2 == 0) // filters only the even length strings

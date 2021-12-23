@@ -2,11 +2,11 @@ package com.comman;
 
 class ParentClass
 {
-    // private methods are not overridden
+    /*// private methods are not overridden
     private void parentMethod1()
     {
         System.out.println("Inside the parentMethod1() of ParentClass");
-    }
+    }*/
     protected void parentMethod2()
     {
         System.out.println("Inside the parentMethod2() of ParentClass");
@@ -14,10 +14,10 @@ class ParentClass
 }
 class ChildClass extends ParentClass
 {
-    private void parentMethod1()
+   /* private void parentMethod1()
     {
         System.out.println("Inside the parentMethod1() of ChildClass");
-    }
+    }*/
     // overriding method with more accessibility
     @Override
     public void parentMethod2()

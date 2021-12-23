@@ -14,7 +14,7 @@ public class StreamFliterEx {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Comparator<Employee> compare = Comparator.comparing(Employee :: getName);
-		List<Employee> list = employeeList.stream().filter(emp->emp.getAge() < 26).sorted(compare).collect(Collectors.toList());
+		List<Employee> list = employeeList.stream().filter(emp->emp.getAge() == 26).sorted(compare).collect(Collectors.toList());
 		
 		System.out.println(list);
 
