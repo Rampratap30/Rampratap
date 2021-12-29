@@ -35,7 +35,7 @@ public class Employee {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		 
 
-		return 0;
+		return result;
 	}
 
 	@Override

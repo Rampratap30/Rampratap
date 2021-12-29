@@ -29,6 +29,12 @@ public class StreamAPIfindDuplicate {
 		 */
         
         Set<Integer> set = new HashSet<Integer>(list);
+        System.out.println(set);
+        List<Integer> sortList = set.stream().sorted().collect(Collectors.toList());
+        System.out.println(sortList);
+
+
+
         
         int count = list.size() - set.size();
         
@@ -38,13 +44,13 @@ public class StreamAPIfindDuplicate {
         
         List<String> removeList = lists.stream().distinct().collect(Collectors.toList());
         
-        //System.out.println(removeList);
+        System.out.println(removeList);
         
-        System.out.println(isOk);
+        //System.out.println(isOk);
         int x = 3;
         int y = 5;
         int z = 10;
-        System.out.println(++z + y - y + z +x++);
+        //System.out.println(++z + y - y + z +x++);
         
         //25
         
@@ -52,14 +58,14 @@ public class StreamAPIfindDuplicate {
         t.add("13");
         t.add("11");
         t.add("20");
-        System.out.println(t);
+        //System.out.println(t);
         
         float f = 1F;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:sss");
         String dateInString = "06-06-1991 19:20:000";
         Date date = sdf.parse(dateInString);
         
-        System.out.println(date);
+        //System.out.println(date);
         
         //add size with out collection
         
@@ -71,7 +77,7 @@ public class StreamAPIfindDuplicate {
         }
         intA = temp;
         
-        System.out.println(intA.length);
+       // System.out.println(intA.length);
         
 
 	}

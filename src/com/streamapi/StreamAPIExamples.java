@@ -15,9 +15,10 @@ public class StreamAPIExamples {
 		userList.add("Aadvik");
 		
 		userList.stream().filter(s->s.startsWith("A")).forEach(System.out::println);
+		System.out.println("-------------------------------");
 		String firstMatchName = userList.stream().filter(s->s.startsWith("S")).findFirst().get();
 		System.out.println(firstMatchName);
-		
+		System.out.println("-------------------------------");
 		List<String> members = userList.stream().sorted().map(String :: toUpperCase).collect(Collectors.toList());
 		
 		System.out.println(members);

@@ -17,9 +17,9 @@ public class HashingExample {
 		//TreeSet<Employee> sset=new TreeSet<Employee>();//cannot be cast to java.lang.Comparable
 		
 		sset.add(emp1);
+		sset.add(emp1);
 		sset.add(emp2);
-		sset.add(emp3);
-		sset.add(emp4);
+		sset.add(emp2);
 		
 		System.out.println("HashSet size ::"+sset.size());
 		
