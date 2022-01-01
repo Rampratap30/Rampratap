@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class AllZeroShift {
 
@@ -12,10 +13,27 @@ public class AllZeroShift {
 	    
 	    moveZerosToEnd(arr,  n);
 
-		for (int i = 0; i < n; i++)
-			System.out.print(arr[i] + " ");
+		/*for (int i = 0; i < n; i++)
+			System.out.print(arr[i] + " ");*/
 	    //System.out.print("\nModifed array: ");
 	    //printArray(arr, n);
+
+		int temp = 0;
+		for(int i =0;i< n;i++){
+			if(arr[i]!=0){
+				for(int j = i+1;j< n ;j++){
+					if(arr[j]!=0){
+						temp = arr[j];
+						arr[j] = arr[i];
+						arr[i]= temp;
+						break;
+					}
+				}
+			}
+		}
+		/*for (int i = 0; i < n; i++)
+			System.out.print(arr[i] + " ");*/
+		System.out.print(Arrays.toString(arr));
 		
 	}
 	
@@ -45,6 +63,10 @@ public class AllZeroShift {
 	    }
 			//System.out.print(arr[i] + " ");
 	    }
+
+
+
+
 
 	} 
 
