@@ -6,7 +6,7 @@ public class CountPairsWithDiff {
         // TODO Auto-generated method stub
         int arr[] = {1, 5, 3, 4, 2};
         int n = arr.length;
-        int k = 3;
+        int k = 2;
         System.out.println("Count of pairs with given diff is "
                 + countPairsWithDiffK(arr, n, k));
     }

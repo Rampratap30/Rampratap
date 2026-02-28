@@ -1,4 +1,4 @@
-package com.core;
+package com.Wissen;
 
 public class Myclass2 {
 

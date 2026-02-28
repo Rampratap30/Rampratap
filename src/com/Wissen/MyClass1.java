@@ -1,4 +1,4 @@
-package com.core;
+package com.Wissen;
 
 class A1{
 	public void xyz() {

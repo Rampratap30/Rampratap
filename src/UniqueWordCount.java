@@ -11,6 +11,12 @@ public class UniqueWordCount {
 		
 		String txt = "apple banana orange apple banana";
 		
+		
+		Map<String, Long> wordCount = Arrays.stream(txt.split("\\s+"))
+				.collect(Collectors.groupingBy(String::toLowerCase, Collectors.counting()));
+		
+		System.out.println("Word Count: " + wordCount);		
+		
 		String[] words = txt.split("");
 		
 		//System.out.println("Initial word count: " + words.length);
@@ -25,6 +31,7 @@ public class UniqueWordCount {
 		//String[] stringarray = aaa.split("[\\s,;]+");
 
 		Map<String , Long> map =  Arrays.stream(aaa.split("[\\s,;]+")).collect(Collectors.groupingBy(c -> c , Collectors.counting()));
+		
 		map.forEach( (k, v) -> System.out.println(k + "  "+ v +" times "));
 
 

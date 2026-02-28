@@ -1,4 +1,4 @@
-package com.core;
+package com.Wissen;
 
 class A{
 	public A() {
