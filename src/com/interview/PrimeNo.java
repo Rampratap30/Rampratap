@@ -3,7 +3,7 @@ package com.interview;
 public class PrimeNo {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        int num = 21;
+        int num = 11;
         boolean flag = false;
         for (int i = 2; i <= num / 2; ++i) {
             // condition for nonprime number
