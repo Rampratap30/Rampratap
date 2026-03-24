@@ -1,0 +1,1 @@
+from app.components.home.main import home_router

@@ -1,0 +1,100 @@
+<!------Page 1------>
+<div class="container" *ngIf="displaypage === '1'">
+  <div class="single-ship">
+    <h3>
+      Order<span class="order-id">{{ ordernumber }}</span>
+    </h3>
+    <h4 class="gray-text">{{ orderstatus }}</h4>
+    <div *ngIf="estimated_delivery_date">
+      <h5>{{date_label}}</h5>
+      <div class="delivery-date">
+        <p>{{ estimated_delivery_date }}</p>
+      </div>
+    </div>
+    <div class="ricoh-contact">
+      <p>
+        Ricoh sales professional:
+        <span>{{ ricoh_sp_name }}, {{ ricoh_sp_email }}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="custom-stepper-container">
+    <div class="data-detail">
+      <div class="tabinfo">
+        <div
+          class="accordion cursor-pointer headaddress"
+          id="accordionExample"
+          *ngFor="let line_detail of line_details; let i = index"
+        >
+          <div class="accordion-item address-item">
+            <h2 class="accordion-header" [id]="'headingAddress' + i">
+              <button
+                class="accordion-button address-head"
+                type="button"
+                data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#collapseAddress' + i"
+                aria-expanded="true"
+                [attr.aria-controls]="'collapseAddress' + i"
+              >
+                {{ line_detail.ship_to_address1 }},
+                {{ line_detail.ship_to_city }},
+                {{ line_detail.ship_to_state }}&nbsp;&nbsp;
+                {{ line_detail.ship_to_zip }}
+              </button>
+            </h2>
+            <div
+              [id]="'collapseAddress' + i"
+              class="accordion-collapse collapse show"
+              [attr.aria-labelledby]="'headingAddress' + i"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <div class="quantity">
+                  <h5 class="order-heading-details">Order details</h5>
+                  <!-- <p>
+                    Machine quantity:<span class="bold-text botom-space qt">{{
+                      line_detail.machine_count
+                    }}</span>
+                  </p> -->
+                  <div *ngFor="let itemdetail of line_detail['item_details']">
+                    <div class="bold-text botom-space">
+                      <span>{{ itemdetail.item }}</span>
+                    </div>
+                  </div>
+
+                  <div class="parcels" *ngIf="line_detail['small_parcel']?.length > 0">
+                    <p>Small parcels:</p>
+                    <div *ngFor="let small of line_detail['small_parcel']">
+                      <div class="bold-text botom-space mb-2">
+                        <!-- Always display the item -->
+                        {{ small.item }}
+                      </div>
+                      <div class="botom-space mb-2">
+                        <div *ngIf="small.tracking_number !== ''">
+                          <span class="bold-text">Tracking Number: </span>
+                          <ng-container *ngIf="small.tracking_url !== 'Tracking number is not identified'; else plainText">
+                            <a [href]="small.tracking_url" target="_blank">
+                              {{ small.tracking_number }}
+                            </a>
+                          </ng-container>
+                          <ng-template #plainText>
+                            <span>Tracking number is not identified</span>
+                          </ng-template>
+                        </div>
+                        <div *ngIf="small.tracking_number === ''">
+                          <span class="bold-text">Tracking Number: </span> <span>Pending tracking #</span>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

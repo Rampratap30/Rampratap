@@ -1,0 +1,244 @@
+<!-----page 3---->
+<div class="container" *ngIf="displaypage === '3'">
+  <div class="row">
+    <div class="single-ship">
+      
+      <h3>
+        Order<span class="order-id">{{ ordernumber }}</span>
+      </h3>
+      <h4 class="gray-text">{{ getCurrentStatusText() }}</h4>
+      <div *ngIf="estimated_delivery_date">
+        <h5>{{date_label}}</h5>
+        <div class="delivery-date">
+          <p>{{ estimated_delivery_date }}</p>    
+        </div>
+      </div>
+      <div class="location" *ngFor="let line_detail of line_details">
+        <p>Ship to location</p>
+        <h5 class="mb-0">
+          {{ line_detail.ship_to_address1 }}
+        </h5>
+        <h5>{{ line_detail.ship_to_city }},&nbsp;{{ line_detail.ship_to_state }}&nbsp;&nbsp;{{ line_detail.ship_to_zip }}</h5>
+      </div>
+      <div class="ricoh-contact">
+        <p>
+          Ricoh sales professional:
+          <span>{{ ricoh_sp_name }}, {{ ricoh_sp_email }}</span>
+        </p>
+      </div>
+    </div>
+    <div class="custom-stepper-container">
+      <div class="stepper-container">
+        <div
+          *ngFor="let item of order_status | keyvalue"
+          class="step"
+          [ngClass]="{ completed: ricoh_order_status >= item.key }"
+        >
+          <div
+            class="circle"
+            [ngClass]="{
+              'bg-green-crl border-green-crl': ricoh_order_status < item.key,
+              'bg-success-crl border-success': ricoh_order_status >= item.key
+            }"
+          >
+            <i *ngIf="ricoh_order_status >= item.key" class="checkmark"></i>
+          </div>
+          <h5
+            class="text-dark"
+            [ngClass]="{
+              'text-success': ricoh_order_status >= item.key,
+              'text-danger': ricoh_order_status < item.key
+            }"
+          >
+            {{ item.value }}
+          </h5>
+          <div
+            class="line"
+            [ngClass]="{
+              'bg-success-crl': ricoh_order_status >= item.key,
+              'bg-green-crl': ricoh_order_status < item.key
+            }"
+          ></div>
+        </div>
+      </div>
+
+      <div class="data-detail" *ngFor="let line_detail of line_details">
+        <div class="tabinfo">
+          <div class="gry-head">
+            <p>Items in this shipment</p>
+          </div>
+          <div class="quantity box-ship">
+            <!-- <p>
+              Machine quantity:<span class="bold-text botom-space qt">{{
+                line_detail.machine_count
+              }}</span>
+            </p> -->
+            <div *ngFor="let itemdetail of line_detail['item_details']">
+              <div class="itemdetail botom-space">
+                <span class="itemspace bold-text">{{ itemdetail.item }}</span>
+                  <div *ngIf="itemdetail.installation_type !='N/A'">
+                    <span class="install-type itemspace">Installation type:</span>                  
+                     &nbsp;&nbsp; <span class="bold-text">{{
+                        itemdetail.installation_type
+                      }}</span>
+                    </div>
+              </div>
+            </div>
+
+            <div class="parcels" *ngIf="line_detail['small_parcel']?.length > 0">
+              <p>Small parcels:</p>
+              <div *ngFor="let small of line_detail['small_parcel']">
+                <div class="bold-text botom-space mb-2">
+                  <!-- Always display the item -->
+                  {{ small.item }}
+                </div>
+                <div class="botom-space mb-2">
+                  <div *ngIf="small.tracking_number !== ''">
+                    <span class="bold-text">Tracking Number: </span>
+                    <ng-container *ngIf="small.tracking_url !== 'Tracking number is not identified'; else plainText">
+                      <a [href]="small.tracking_url" target="_blank">
+                        {{ small.tracking_number }}
+                      </a>
+                    </ng-container>
+                    <ng-template #plainText>
+                      <span>Tracking number is not identified</span>
+                    </ng-template>
+                  </div>
+                  <div *ngIf="small.tracking_number === ''">
+                    <span class="bold-text">Tracking Number: </span> <span>Pending tracking #</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="accordion-container">
+        <h1>Additional information</h1>
+        <div
+          class="accordion"
+          id="accordionExample"
+          *ngFor="let additional of additional_details"
+        >
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Site reference
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <div *ngFor="let site of additional['site_reference']">
+                  <p class="mb-0 fw-bold">{{ site.line_number ? site.line_number : 'N/A' }} {{ site.item ? site.item : 'N/A' }}</p>
+                  <p class="mb-3">{{ site.reference ? site.reference : 'N/A' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Installation details
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingTwo"
+              data-bs-parent="#accordionExample"
+            >
+            <div class="accordion-body" *ngIf="isAllNAForSection(additional['installation_details']); else installList">
+              <p class="mb-3">N/A</p>
+            </div>
+            
+            <ng-template #installList>
+              <div class="accordion-body" *ngFor="let install of additional['installation_details']">
+                <p class="mb-0">{{ install.type ? install.type : 'N/A' }}</p>
+                <p class="mb-0">{{ install.message ? install.message : 'N/A' }}</p>
+              </div>
+            </ng-template>
+            
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                Equipment removal details
+              </button>
+            </h2>
+            <div
+              id="collapseThree"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingThree"
+              data-bs-parent="#accordionExample"
+            >
+            <div class="accordion-body" *ngIf="isAllNAForSection(additional['equip_removal_det']); else equipmentList">
+              <p class="mb-0">N/A</p>
+            </div>
+            
+            <ng-template #equipmentList>
+              <div class="accordion-body" *ngFor="let equipment of additional['equip_removal_det']">
+                <p>{{equipment.message}}</p>
+                <p class="mb-0">Machines identified for pick-up:</p>
+                <b>{{ equipment.line_number }} {{ equipment.item }} -</b> Serial # <b>{{ equipment.serial_number }}</b>
+              </div>
+            </ng-template>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingfour">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapsefour"
+                aria-expanded="false"
+                aria-controls="collapsefour"
+              >
+                Hard drive removal details
+              </button>
+            </h2>
+            <div
+              id="collapsefour"
+              class="accordion-collapse collapse"
+              aria-labelledby="headingfour"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+               <p class="mb-0"> {{ additional.hd_surrender_det ? additional.hd_surrender_det : 'N/A' }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

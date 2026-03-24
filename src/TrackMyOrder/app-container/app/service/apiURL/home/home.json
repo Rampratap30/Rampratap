@@ -1,0 +1,5 @@
+{
+  "request": {
+    "GET": ["/api/home/getdata"]
+  }
+}

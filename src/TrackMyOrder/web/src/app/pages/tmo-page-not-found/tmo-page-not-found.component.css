@@ -1,0 +1,20 @@
+.notfound {
+  text-align: center;
+  width: 80%;
+  margin: 100px auto;
+}
+.notfound h1 {
+  font-family: sans-serif;
+  font-weight: 700;
+  color: #333333;
+  line-height: normal;
+  font-size: 40px;
+}
+.notfound p {
+  padding: 4px 0px 4px 0px;
+  box-sizing: border-box;
+  font-family: "ArialMT", "Arial", sans-serif;
+  color: #333333;
+  line-height: normal;
+  line-height: 30px;
+}

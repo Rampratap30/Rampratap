@@ -1,0 +1,16 @@
+<!--Page used for navigation-->
+<div class="container">
+  <div
+    *ngIf="isLoading"
+    class="d-flex justify-content-center"
+  >
+    <button class="btn btn-outline-danger" type="button" disabled>
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      Loading Order Details...
+    </button>
+  </div>
+</div>
