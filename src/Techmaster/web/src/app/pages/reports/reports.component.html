@@ -1,0 +1,44 @@
+<section class="main">
+  <div class="container mb-2">
+    <div class="col-sm-12 page-head">
+      <a routerLink="/reports" class="page-head-link-active">Reports</a
+      ><span style="font-size: 1.1rem"> > </span>
+    </div>
+  </div>
+  <div class="container mb-2">
+    <div class="col-sm-12 bg-white c-border p-3 mb-2">
+      <form [formGroup]="frm" autocomplete="off">
+        <div class="row">
+          <div class="col-sm-6 ps-4 mb-2">
+            <div class="row">
+              <label for="inputStatus" class="col-sm-4 col-form-label"
+                >Employee</label
+              >
+              <div class="col-sm-7 pe-0">
+                <ngx-select
+                  formControlName="employeeStatus"
+                  [allowClear]="true"
+                  [items]="employeeStatus"
+                  optionValueField="id"
+                  optionTextField="value"
+                  placeholder="Select"
+                >
+                </ngx-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <button
+              type="button"
+              class="btn btn-outline-danger me-3"
+              (click)="downloadCSV()"
+            >
+              Go
+            </button>
+            <!-- <button (click) = "clearData()" type="button" class="btn btn-outline-danger me-3">Reset</button> -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

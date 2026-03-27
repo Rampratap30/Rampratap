@@ -1,0 +1,8 @@
+1)Java Data Structures and Algorithms Masterclass - Elshad Karimov
+2)Full stack generative and Agentic AI with python - Piyush Garg
+3)Master System Design & Software Architecture: Basic-Advanced
+
+
+----
+https://www.baeldung.com/cs/saga-pattern-microservices
+

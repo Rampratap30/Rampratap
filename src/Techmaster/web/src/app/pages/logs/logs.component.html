@@ -1,0 +1,170 @@
+<section class="main">
+  <div class="container mb-2">
+    <div class="col-sm-12 page-head">
+      <a routerLink="/logs" class="page-head-link-active">Logs</a
+      ><span style="font-size: 1.1rem"> > </span>
+    </div>
+  </div>
+  <div class="container mb-2">
+    <div class="col-sm-12 bg-white c-border p-3 mb-2">
+      <form [formGroup]="frm" (ngSubmit)="onSearchSubmit()" autocomplete="off">
+        <div class="row">
+          <div class="col-sm-6 ps-4 mb-2">
+            <div class="row mb-2">
+              <label for="inputManagerName" class="col-sm-4 col-form-label"
+                >From Date
+              </label>
+              <div class="col-sm-7 pe-0">
+                <div class="dp-hidden position-absolute">
+                  <div class="input-group">
+                    <input
+                      style="padding-left: 0px"
+                      name="datepicker"
+                      class="form-control"
+                      ngbDatepicker
+                      #datepicker="ngbDatepicker"
+                      [autoClose]="'outside'"
+                      (dateSelect)="onDateSelection($event)"
+                      [displayMonths]="2"
+                      [dayTemplate]="t"
+                      outsideDays="hidden"
+                      [startDate]="fromDate!"
+                      tabindex="-1"
+                    />
+                    <ng-template #t let-date let-focused="focused">
+                      <span
+                        class="custom-day"
+                        [class.focused]="focused"
+                        [class.range]="isRange(date)"
+                        [class.faded]="isHovered(date) || isInside(date)"
+                        (mouseenter)="hoveredDate = date"
+                        (mouseleave)="hoveredDate = null"
+                      >
+                        {{ date.day }}
+                      </span>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <input
+                    #dpFromDate
+                    formControlName="from_date"
+                    class="form-control"
+                    placeholder="mm/dd/yyyy"
+                    name="dpFromDate"
+                    [value]="formatter.format(fromDate)"
+                    (input)="
+                      fromDate = validateInput(fromDate, dpFromDate.value)
+                    "
+                  />
+                  <button
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="datepicker.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <label for="inputStatus" class="col-sm-4 col-form-label"
+                >Log for</label
+              >
+              <div class="col-sm-7 pe-0">
+                <ngx-select
+                  formControlName="logsFor"
+                  [allowClear]="true"
+                  [items]="logsFor"
+                  optionValueField="id"
+                  optionTextField="value"
+                  placeholder="Select"
+                  (select)="logForSelectevent($event)"
+                  (remove)="logForRemoveevent($event)"
+                >
+                </ngx-select>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-2">
+            <div class="row">
+              <label for="inputManagerName" class="col-sm-4 col-form-label"
+                >To Date
+              </label>
+              <div class="col-sm-7 pe-0">
+                <div class="input-group">
+                  <input
+                    #dpToDate
+                    formControlName="to_date"
+                    class="form-control"
+                    placeholder="mm/dd/yyyy"
+                    name="dpToDate"
+                    [value]="formatter.format(toDate)"
+                    (input)="toDate = validateInput(toDate, dpToDate.value)"
+                  />
+                  <button
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="datepicker.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="empIdDisable">
+              <div class="row">
+                <label for="inputManagerName" class="col-sm-4 col-form-label"
+                  >Employee Id
+                </label>
+                <div class="col-sm-7 pe-0 mt-2">
+                  <div class="input-group">
+                    <input
+                      type="number"
+                      min="1"
+                      formControlName="search_emp_id"
+                      class="form-control"
+                      id="search_emp_id"
+                    />
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-sm-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-danger me-3">
+              Search
+            </button>
+            <button
+              (click)="clearData()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+            >
+              Reset
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger me-3"
+              (click)="onBtExportBulk()"
+            >
+              Bulk Export to csv
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="container mb-2">
+    <ag-grid-angular
+      style="width: 100%"
+      domLayout="autoHeight"
+      class="ag-theme-alpine"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [gridOptions]="gridOptions"
+      [pagination]="true"
+      (gridReady)="onGridReady($event)"
+      [paginationPageSize]="defaultPageSize"
+      [cacheBlockSize]="defaultPageSize"
+      [enableRangeSelection]="true"
+    >
+    </ag-grid-angular>
+  </div>
+</section>

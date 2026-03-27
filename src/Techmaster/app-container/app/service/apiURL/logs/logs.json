@@ -1,0 +1,10 @@
+{
+    "request": {
+        "GET": [
+            "/api/logs/get"
+        ],
+        "POST": [
+            "/api/logs/bulk_export"
+        ]
+    }
+}

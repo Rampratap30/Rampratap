@@ -1,0 +1,30 @@
+{
+    "strict": true,
+    "debug": true,
+    "sp": {
+        "entityId": "techmaster-qa",
+        "assertionConsumerService": {
+            "url": "https://techmasterqa.ricohonline.org/sso?acs",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+        },
+        "singleLogoutService": {
+            "url": "https://techmasterqa.ricohonline.org/sso?sls",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "x509cert": "",
+        "privateKey": ""
+    },
+    "idp": {
+        "entityId": "https://sts.windows.net/cbdb0d78-6a1f-4b73-98a2-ed310274376c/",
+        "singleSignOnService": {
+            "url": "https://login.microsoftonline.com/cbdb0d78-6a1f-4b73-98a2-ed310274376c/saml2",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "singleLogoutService": {
+            "url": "https://login.microsoftonline.com/cbdb0d78-6a1f-4b73-98a2-ed310274376c/saml2",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "x509cert": "MIIC8DCCAdigAwIBAgIQZq5OhLfH67FNxUmZmuyV1TANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQDEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMzA3MTcxNzQzNDNaFw0yNjA3MTcxNzQzNDNaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQgU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAutytMAJYhKNwKdynwieuqorY+aKmvQDY1DA21ttlQ4NOXiyfIUFNLsrzvbq/qNhr54lzCF710kPdClDac3ncW0La0I+YxE89JTk2+va67onHCAO4B9IIeMzvD0s3+rEJrPnzeAkyxkPa8zzbL2CY/gjp9NKQUGbSsROKt7f143JK3IRuMfUF5X0C/ltsp84hLnxmfIrP5hTqyWY16tktD6k68GDvePzVkA6GRY2G/uhlgStKhNIBAOqc5S8cwmS7Bc+Tkv85HdJDLy4D8a7sFfo8osVqcA4gmXVKrFyZoYnj0o8iirZxgtyU57026F+nAExnia9EZBOV1xv/juCGWQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCbZiEK4g2KnGkrhhHbtiUig+/9B0V8yeMvDNHNzMiOi6AdARW+bRXv+LMIkPwcPPxCiMvT3MS4cR3NjIcb/Sei4I/V6kOcy7Q6/NVsiGw03wFBdx7roc/9Z002S7A35PnTJb8hLM2NvVqTcUEO7UPAM6QCEC3nqmbUNvbEGghOWYLRpA0aJNnk56mexJxSmgUloS3ZzsmWcFbhI9zEQhxDZ3n6hNc8ODShxf/02lNg/owS7j+b2VegEf5h1vRjxjJutoKOmzahkCePEyoc8fhzuDuUk6ei35A8IIXM4IKQOuvs+dxz8+7O3l9rzTN54tkoRqETGv30BXz2Nkr7IkBg"
+    }
+}

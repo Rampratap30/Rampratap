@@ -1,0 +1,16 @@
+{
+    "request": {
+        "POST": [
+            "/api/config/team-type/add"
+        ],
+        "GET": [
+            "/api/config/team-type/get_count",
+            "/api/config/team-type/get",
+            "/api/config/team-type/get/<int:team_type_id>"
+        ],
+        "PUT": [
+            "/api/config/team-type/update/<int:team_type_id>",
+            "/api/config/team-type/update/bulk-delete"
+        ]
+    }
+}

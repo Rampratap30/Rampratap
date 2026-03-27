@@ -1,0 +1,14 @@
+{
+    "request": {
+        "GET": [
+            "/api/employee/get",
+            "/api/employee/is_employee_as_manager",
+            "/api/employee/is_employee_exists"
+        ],
+        "PUT": [
+            "/api/employee/change-request/<int:employee_id>",
+            "/api/employee/syncup/<int:employee_id>",
+            "/api/employee/add-employee/<int:employee_id>"
+        ]
+    }
+}

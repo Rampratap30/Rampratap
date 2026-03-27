@@ -1,0 +1,1749 @@
+<section class="main">
+  <div>
+    <ngx-spinner
+      [fullScreen]="true"
+      bdColor="rgba(0, 0, 0, 0.8)"
+      size="medium"
+      color="#dc3545"
+      type="timer"
+    >
+      <p style="color: white">Loading...</p>
+    </ngx-spinner>
+  </div>
+  <!-- <button (click)="downloadCSV()">Download CSV</button> -->
+  <div class="container mb-4">
+    <ul
+      ngbNav
+      #nav="ngbNav"
+      class="nav"
+      role="tabpanel"
+      [(activeId)]="activeTab"
+    >
+      <li [ngbNavItem]="1">
+        <button ngbNavLink class="textFont">Region</button>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 bg-white c-border p-3 mb-2 mt-3">
+            <form
+              [formGroup]="frm"
+              (ngSubmit)="onSearchSubmit()"
+              autocomplete="off"
+            >
+              <div class="col-sm-6 ps-4 mb-2">
+                <div class="row mt-3 mb-2">
+                  <label for="RegionName" class="col-sm-4 col-form-label"
+                    >Region Name</label
+                  >
+                  <div class="col-sm-6">
+                    <input
+                      type="txt"
+                      class="form-control"
+                      id="region_name"
+                      formControlName="region_name"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                  <label for="status" class="col-sm-4 col-form-label"
+                    >Status</label
+                  >
+                  <div class="col-sm-6">
+                    <ngx-select
+                      [allowClear]="true"
+                      formControlName="status"
+                      [items]="selectItems"
+                      optionValueField="optionId"
+                      optionTextField="optionTitle"
+                      placeholder="Select"
+                    >
+                    </ngx-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger me-3"
+                  [disabled]="!f['region_name'].value && !f['status'].value"
+                >
+                  Search
+                </button>
+                <button
+                  (click)="clearData()"
+                  type="button"
+                  class="btn btn-outline-danger me-3"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+          <hr class="mt-2 mb-2" />
+          <div class="row mb-2">
+            <div class="col-sm-12 d-flex justify-content-left">
+              <button
+                type="button"
+                (click)="addRegion(content)"
+                class="btn btn-outline-danger me-3"
+                [disabled]="isAddDisabled"
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                [disabled]="isDisabled"
+                (click)="editRegion(content)"
+                class="btn btn-outline-danger me-3"
+              >
+                Edit
+              </button>
+              <button
+                [disabled]="isDisabled"
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="onDeleteRow()"
+              >
+                Inactive
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="ExportData()"
+              >
+                Export
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="BulkExportData()"
+              >
+                Bulk Export to csv
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <ag-grid-angular
+                style="width: 100%"
+                class="ag-theme-alpine"
+                [rowData]="rowData"
+                [columnDefs]="columnDefs"
+                [gridOptions]="gridOptions"
+                [pagination]="true"
+                (gridReady)="onGridReady($event)"
+                [paginationPageSize]="defaultPageSize"
+                [cacheBlockSize]="defaultPageSize"
+                [rowSelection]="rowSelection"
+                [suppressRowClickSelection]="true"
+                (selectionChanged)="onSelectionChanged($event)"
+                domLayout="autoHeight"
+              >
+              </ag-grid-angular>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="2">
+        <button ngbNavLink class="textFont">Area</button>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 bg-white c-border p-3 mb-2 mt-3">
+            <form
+              [formGroup]="frm"
+              (ngSubmit)="onSearchSubmit()"
+              autocomplete="off"
+            >
+              <div class="col-sm-6 ps-4 mb-2">
+                <div class="row mt-3 mb-2">
+                  <label for="AreaName" class="col-sm-4 col-form-label"
+                    >Area Short Name</label
+                  >
+                  <div class="col-sm-6">
+                    <input
+                      type="txt"
+                      class="form-control"
+                      id="area_short_name"
+                      formControlName="area_short_name"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                  <label for="areastatus" class="col-sm-4 col-form-label"
+                    >Status</label
+                  >
+                  <div class="col-sm-6">
+                    <ngx-select
+                      [allowClear]="true"
+                      formControlName="area_status"
+                      [items]="selectItems"
+                      optionValueField="optionId"
+                      optionTextField="optionTitle"
+                      placeholder="Select"
+                    >
+                    </ngx-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger me-3"
+                  [disabled]="
+                    !f['area_short_name'].value && !f['area_status'].value
+                  "
+                >
+                  Search
+                </button>
+                <button
+                  (click)="clearData()"
+                  type="button"
+                  class="btn btn-outline-danger me-3"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+          <hr class="mt-2 mb-2" />
+          <div class="row mb-2">
+            <div class="col-sm-12 d-flex justify-content-left">
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="addArea(contentArea)"
+                [disabled]="isAddDisabled"
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                [disabled]="isDisabled"
+                (click)="editArea(contentArea)"
+                class="btn btn-outline-danger me-3"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                [disabled]="isDisabled"
+                class="btn btn-outline-danger me-3"
+                (click)="onDeleteRowArea()"
+              >
+                Inactive
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="ExportData()"
+              >
+                Export
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="BulkExportData()"
+              >
+                Bulk Export to csv
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <ag-grid-angular
+              style="width: 100%"
+              domLayout="autoHeight"
+              class="ag-theme-alpine"
+              [enableCellTextSelection]="true"
+              [rowData]="rowData"
+              [columnDefs]="columnDefsArea"
+              [icons]="icons"
+              SingleClickEdit
+              StopEditingWhenGridLosesFocus
+              rowselection="multiple"
+              (selectionChanged)="onSelectionChanged($event)"
+              [gridOptions]="gridOptions"
+              [pagination]="true"
+              (gridReady)="onGridReady($event)"
+              [paginationPageSize]="defaultPageSize"
+              [cacheBlockSize]="defaultPageSize"
+              [enableRangeSelection]="true"
+            >
+            </ag-grid-angular>
+          </div>
+        </ng-template>
+      </li>
+      <!-- <li [ngbNavItem]="3">
+        <button ngbNavLink class="textFont">Location</button>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 bg-white c-border p-3 mb-2 mt-3">
+            <form
+              [formGroup]="frm"
+              (ngSubmit)="onSearchSubmit()"
+              autocomplete="off"
+            >
+              <div class="col-sm-6 ps-4 mb-2">
+                <div class="row mt-3 mb-2">
+                  <label for="LocationName" class="col-sm-4 col-form-label"
+                    >Location Code</label
+                  >
+                  <div class="col-sm-6">
+                    <input
+                      type="txt"
+                      class="form-control"
+                      id="location_name"
+                      formControlName="location_name"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                  <label for="locationstatus" class="col-sm-4 col-form-label"
+                    >Inactive</label
+                  >
+                  <div class="col-sm-6">
+                    <ngx-select
+                      [allowClear]="true"
+                      formControlName="location_status"
+                      [items]="selectItems_y_n"
+                      optionValueField="optionId"
+                      optionTextField="optionTitle"
+                      placeholder="Select"
+                    >
+                    </ngx-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger me-3"
+                  [disabled]="
+                    !f['location_name'].value && !f['location_status'].value
+                  "
+                >
+                  Search
+                </button>
+                <button
+                  (click)="clearData()"
+                  type="button"
+                  class="btn btn-outline-danger me-3"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+          <hr class="mt-2 mb-2" />
+          <div class="row mb-2">
+            <div class="col-sm-12 d-flex justify-content-left"> -->
+      <!-- <button type="button" class="btn btn-outline-danger me-3" (click) = "addLocation(contentLocation)">Add</button>
+					  <button type="button" [disabled]="isDisabled" (click) = "editLocation(contentLocation)" class="btn btn-outline-danger me-3" >Edit</button>
+					<button [disabled]="isDisabled" type="button" class="btn btn-outline-danger me-3"
+					  (click)="onDeleteRowLocation()">Delete</button> -->
+      <!-- <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="ExportData()"
+              >
+                Export
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="BulkExportLocationData()"
+              >
+                Bulk Export to csv
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <ag-grid-angular
+                style="width: 100%"
+                domLayout="autoHeight"
+                class="ag-theme-alpine"
+                [enableCellTextSelection]="true"
+                [rowData]="rowData"
+                [columnDefs]="columnLocationDefs"
+                [icons]="icons"
+                SingleClickEdit
+                StopEditingWhenGridLosesFocus
+                rowselection="multiple"
+                (selectionChanged)="onSelectionChanged($event)"
+                [gridOptions]="gridOptions"
+                [pagination]="true"
+                (gridReady)="onGridReady($event)"
+                [paginationPageSize]="defaultPageSize"
+                [cacheBlockSize]="defaultPageSize"
+                [enableRangeSelection]="true"
+              >
+              </ag-grid-angular>
+            </div>
+          </div>
+        </ng-template>
+      </li> -->
+      <li [ngbNavItem]="4">
+        <button ngbNavLink class="textFont">Job Code</button>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 bg-white c-border p-3 mb-2 mt-3">
+            <form
+              [formGroup]="frm"
+              (ngSubmit)="onSearchSubmit()"
+              autocomplete="off"
+            >
+              <div class="col-sm-6 ps-4 mb-2">
+                <div class="row mt-3 mb-2">
+                  <label for="JobcodeName" class="col-sm-4 col-form-label"
+                    >Job ADP Code</label
+                  >
+                  <div class="col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="job_adp_code"
+                      formControlName="job_adp_code"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                  <label for="Jobcodestatus" class="col-sm-4 col-form-label"
+                    >Status</label
+                  >
+                  <div class="col-sm-6">
+                    <ngx-select
+                      [allowClear]="true"
+                      formControlName="job_code_status"
+                      [items]="selectItems"
+                      optionValueField="optionId"
+                      optionTextField="optionTitle"
+                      placeholder="Select"
+                    >
+                    </ngx-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger me-3"
+                  [disabled]="
+                    !f['job_adp_code'].value && !f['job_code_status'].value
+                  "
+                >
+                  Search
+                </button>
+                <button
+                  (click)="clearData()"
+                  type="button"
+                  class="btn btn-outline-danger me-3"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+          <hr class="mt-2 mb-2" />
+          <div class="row mb-2">
+            <div class="col-sm-12 d-flex justify-content-left">
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="addJobCode(contentJobCode)"
+                [disabled]="isAddDisabled"
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                [disabled]="isDisabled"
+                (click)="editJobCode(contentJobCode)"
+                class="btn btn-outline-danger me-3"
+              >
+                Edit
+              </button>
+              <button
+                [disabled]="isDisabled"
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="onDeleteRowJobCode()"
+              >
+                Inactive
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="ExportData()"
+              >
+                Export
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="BulkExportData()"
+              >
+                Bulk Export to csv
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <ag-grid-angular
+                style="width: 100%"
+                domLayout="autoHeight"
+                class="ag-theme-alpine"
+                [enableCellTextSelection]="true"
+                [rowData]="rowData"
+                [columnDefs]="columnJobcodeDefs"
+                [icons]="icons"
+                SingleClickEdit
+                StopEditingWhenGridLosesFocus
+                rowselection="multiple"
+                (selectionChanged)="onSelectionChanged($event)"
+                [gridOptions]="gridOptions"
+                [pagination]="true"
+                (gridReady)="onGridReady($event)"
+                [paginationPageSize]="defaultPageSize"
+                [cacheBlockSize]="defaultPageSize"
+                [enableRangeSelection]="true"
+              >
+              </ag-grid-angular>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="5">
+        <button ngbNavLink class="textFont">Team Types</button>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 bg-white c-border p-3 mb-2 mt-3">
+            <form
+              [formGroup]="frm"
+              (ngSubmit)="onSearchSubmit()"
+              autocomplete="off"
+            >
+              <div class="col-sm-6 ps-4 mb-2">
+                <div class="row mt-3 mb-2">
+                  <label for="JobcodeName" class="col-sm-4 col-form-label"
+                    >Team Types Name</label
+                  >
+                  <div class="col-sm-6">
+                    <input
+                      type="txt"
+                      class="form-control"
+                      id="team_type_name"
+                      formControlName="team_type_name"
+                    />
+                  </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                  <label for="TeamTypestatus" class="col-sm-4 col-form-label"
+                    >Status</label
+                  >
+                  <div class="col-sm-6">
+                    <ngx-select
+                      [allowClear]="true"
+                      formControlName="team_type_status"
+                      [items]="selectItems"
+                      optionValueField="optionId"
+                      optionTextField="optionTitle"
+                      placeholder="Select"
+                    >
+                    </ngx-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger me-3"
+                  [disabled]="
+                    !f['team_type_name'].value && !f['team_type_status'].value
+                  "
+                >
+                  Search
+                </button>
+                <button
+                  (click)="clearData()"
+                  type="button"
+                  class="btn btn-outline-danger me-3"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+          <hr class="mt-2 mb-2" />
+          <div class="row mb-2">
+            <div class="col-sm-12 d-flex justify-content-left">
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="addTeamTypes(contentTeamTypes)"
+                [disabled]="isAddDisabled"
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                [disabled]="isDisabled"
+                (click)="editTeamTypes(contentTeamTypes)"
+                class="btn btn-outline-danger me-3"
+              >
+                Edit
+              </button>
+              <button
+                [disabled]="isDisabled"
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="onDeleteRowTeamTypes()"
+              >
+                Inactive
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="ExportData()"
+              >
+                Export
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="BulkExportData()"
+              >
+                Bulk Export to csv
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <ag-grid-angular
+                style="width: 100%"
+                domLayout="autoHeight"
+                class="ag-theme-alpine"
+                [enableCellTextSelection]="true"
+                [rowData]="rowData"
+                [columnDefs]="columnTeamTypesDefs"
+                [icons]="icons"
+                SingleClickEdit
+                StopEditingWhenGridLosesFocus
+                rowselection="multiple"
+                (selectionChanged)="onSelectionChanged($event)"
+                [gridOptions]="gridOptions"
+                [pagination]="true"
+                (gridReady)="onGridReady($event)"
+                [paginationPageSize]="defaultPageSize"
+                [cacheBlockSize]="defaultPageSize"
+                [enableRangeSelection]="true"
+              >
+              </ag-grid-angular>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+      <li [ngbNavItem]="6">
+        <button ngbNavLink>Notification Set Up</button>
+        <ng-template ngbNavContent>
+          <div class="col-sm-12 bg-white c-border p-3 mb-2 mt-3">
+            <form
+              [formGroup]="frm"
+              (ngSubmit)="onSearchSubmit()"
+              autocomplete="off"
+            >
+              <div class="col-sm-6 ps-4 mb-2">
+                <div class="row mt-3 mb-2">
+                  <label for="NotificationName" class="col-sm-4 col-form-label"
+                    >Notification Name</label
+                  >
+                  <!-- <div class="col-sm-6">
+                    <input
+                      type="txt"
+                      class="form-control"
+                      id="notification_name"
+                      formControlName="notification_name"
+                    />
+                  </div> -->
+
+                  <div class="col-sm-6">
+                    <ngx-select
+                      [allowClear]="true"
+                      formControlName="notification_name"
+                      [items]="notification_types"
+                      optionValueField="optionId"
+                      optionTextField="optionTitle"
+                      placeholder="Select"
+                    >
+                    </ngx-select>
+                  </div>
+                </div>
+                <div class="row mt-3 mb-2">
+                  <label for="status" class="col-sm-4 col-form-label"
+                    >Status</label
+                  >
+                  <div class="col-sm-6">
+                    <ngx-select
+                      [allowClear]="true"
+                      formControlName="notificationstatus"
+                      [items]="selectItems"
+                      optionValueField="optionId"
+                      optionTextField="optionTitle"
+                      placeholder="Select"
+                    >
+                    </ngx-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-7 d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-outline-danger me-3"
+                  [disabled]="
+                    !f['notification_name'].value &&
+                    !f['notificationstatus'].value
+                  "
+                >
+                  Search
+                </button>
+                <button
+                  (click)="clearData()"
+                  type="button"
+                  class="btn btn-outline-danger me-3"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+          <hr class="mt-2 mb-2" />
+          <div class="row mb-2">
+            <div class="col-sm-12 d-flex justify-content-left">
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="addNotification(contentNotification)"
+                [disabled]="isAddDisabled"
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                [disabled]="isDisabled"
+                (click)="editNotification(contentNotification)"
+                class="btn btn-outline-danger me-3"
+              >
+                Edit
+              </button>
+              <button
+                [disabled]="isDisabled"
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="onDeleteRowNotification()"
+              >
+                Inactive
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger me-3"
+                (click)="ExportData()"
+              >
+                Export
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                (click)="BulkExportData()"
+              >
+                Bulk Export to csv
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <ag-grid-angular
+                style="width: 100%"
+                domLayout="autoHeight"
+                class="ag-theme-alpine"
+                [enableCellTextSelection]="true"
+                [rowData]="rowData"
+                [columnDefs]="columnDefs_Notification"
+                [icons]="icons"
+                SingleClickEdit
+                StopEditingWhenGridLosesFocus
+                rowselection="multiple"
+                (selectionChanged)="onSelectionChanged($event)"
+                [gridOptions]="gridOptions"
+                [pagination]="true"
+                (gridReady)="onGridReady($event)"
+                [paginationPageSize]="defaultPageSize"
+                [cacheBlockSize]="defaultPageSize"
+                [enableRangeSelection]="true"
+              >
+              </ag-grid-angular>
+            </div>
+          </div>
+        </ng-template>
+      </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+  </div>
+</section>
+
+<!--Add edit Region-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ regionTitle }}</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="frmr" autocomplete="off">
+    <div class="modal-body">
+      <div class="row mb-2">
+        <label for="RegionName" class="col-sm-4 col-form-label"
+          >Region Name</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="region_name"
+            class="form-control"
+            id="RegionName1"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="regionshortName" class="col-sm-4 col-form-label"
+          >Region Short Name</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="region_short_name"
+            class="form-control"
+            id="regionshortName"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <label for="region_director_name" class="col-sm-4 col-form-label"
+          >Region Director Name</label
+        >
+        <div class="col-sm-8">
+          <ngx-select
+            formControlName="region_director_name"
+            [allowClear]="true"
+            [items]="directorList"
+            optionValueField="employee_id"
+            optionTextField="employee_name"
+            (select)="bindDirectorData(fr['region_director_name'].value)"
+            (remove)="doRemove($event)"
+            placeholder="Select"
+          >
+          </ngx-select>
+          <!-- <input type="text" formControlName="region_director_name" class="form-control"
+					id="regionDirectorName"> -->
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <label for="DirEmpId" class="col-sm-4 col-form-label"
+          >Region Dir Emp Id</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="region_dir_Id"
+            class="form-control"
+            id="DirEmpId"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <label for="DirResourceId" class="col-sm-4 col-form-label"
+          >Region Dir Resource Id</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="region_dir_resource_id"
+            class="form-control"
+            id="DirResourceId"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="DirectoryEmailId" class="col-sm-4 col-form-label"
+          >Director Email Id</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="director_email_id"
+            class="form-control"
+            id="DirectoryEmailId"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+        <label for="eDate" class="col-sm-4 col-form-label"
+          >Effective Start Date</label
+        >
+        <div class="col-sm-8" *ngIf="isRegionAdd">
+          <div class="input-group">
+            <input
+              id="eDate"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              name="dp"
+              formControlName="estartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <button
+              class="btn btn-outline-secondary bi bi-calendar3"
+              (click)="d.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <div class="col-sm-8" *ngIf="!isRegionAdd">
+          <input
+            type="text"
+            formControlName="estartDate"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div> -->
+      <!-- <div class="row mb-2">
+				<label for="eDate" class="col-sm-4 col-form-label">Effective End Date</label>
+				<div class="col-sm-8">
+				  <div class="input-group">
+					<input id="eEndDate" class="form-control" placeholder="mm/dd/yyyy" name="dp" formControlName="eEndDate"
+					  ngbDatepicker #d="ngbDatepicker" />
+					<button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+				  </div>
+				</div>
+			  </div> -->
+
+      <div class="row">
+        <label for="sel1" class="col-sm-4 col-form-label">Status</label>
+        <div class="col-sm-8" *ngIf="isRegionAdd">
+          <input
+            type="text"
+            formControlName="status"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="col-sm-8" *ngIf="!isRegionAdd">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="status"
+            [items]="selectItems"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-danger me-3"
+        (click)="onRegionSubmit()"
+        [disabled]="frmr.invalid"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Save click')"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!--Add edit Area-->
+<ng-template #contentArea let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
+    <button
+      #closebutton
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="frma" autocomplete="off">
+    <div class="modal-body">
+      <div class="row mb-2">
+        <label for="AreaName" class="col-sm-4 col-form-label"
+          >Region Name</label
+        >
+        <div class="col-sm-8">
+          <ngx-select
+            formControlName="area_region_name"
+            [allowClear]="true"
+            [items]="regionList"
+            optionValueField="region_id"
+            optionTextField="region_name"
+            placeholder="Select"
+          >
+          </ngx-select>
+          <!-- <input type="text" formControlName="area_region_name" class="form-control" id="RegionName1"> -->
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+			<label for="area_name" class="col-sm-4 col-form-label">Area Name</label>
+			<div class="col-sm-8">
+			  <input type="text" formControlName="area_name" class="form-control" id="regionshortName">
+			</div>
+		  </div> -->
+      <div class="row mb-2">
+        <label for="area_short_name" class="col-sm-4 col-form-label"
+          >Area Short Name</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="area_short_name"
+            class="form-control"
+            id="regionDirectorName"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="area_director_name" class="col-sm-4 col-form-label"
+          >Area Director Name</label
+        >
+        <div class="col-sm-8">
+          <ngx-select
+            formControlName="area_director_name"
+            [allowClear]="true"
+            [items]="directorList"
+            optionValueField="employee_id"
+            optionTextField="employee_name"
+            (select)="bindAreaDirectorData(fa['area_director_name'].value)"
+            (remove)="doRemoveArea($event)"
+            placeholder="Select"
+          >
+          </ngx-select>
+          <!-- <input type="text" formControlName="region_director_name" class="form-control"
+				id="regionDirectorName"> -->
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="area_dir_empId" class="col-sm-4 col-form-label"
+          >Area Director Emp Id</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="area_dir_empId"
+            class="form-control"
+            id="DirEmpId"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-sm-4 col-form-label">Area Dir Resource Id</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="area_dir_resource_id"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="area_fom_name" class="col-sm-4 col-form-label"
+          >Area FOM Name</label
+        >
+        <div class="col-sm-8">
+          <ngx-select
+            formControlName="area_fom_name"
+            [allowClear]="true"
+            [items]="FOMList"
+            optionValueField="employee_id"
+            optionTextField="employee_name"
+            (select)="bindAreaFOMData(fa['area_fom_name'].value)"
+            (remove)="doRemoveFOMArea($event)"
+            placeholder="Select"
+          >
+          </ngx-select>
+          <!-- <input type="text" formControlName="region_director_name" class="form-control"
+				  id="regionDirectorName"> -->
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="area_fom_emp_id" class="col-sm-4 col-form-label"
+          >Area FOM Emp Id</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="area_fom_emp_id"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-sm-4 col-form-label">Area FOM Resource Id</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="area_fom_resource_id"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+        <label for="eDate" class="col-sm-4 col-form-label"
+          >Effective Start Date</label
+        >
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <div class="input-group">
+            <input
+              id="eDate"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              name="dp"
+              formControlName="estartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <button
+              class="btn btn-outline-secondary bi bi-calendar3"
+              (click)="d.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <input
+            type="text"
+            formControlName="estartDate"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div> -->
+      <div class="row">
+        <label for="sel1" class="col-sm-4 col-form-label">Status</label>
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <input
+            type="text"
+            formControlName="status"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="status"
+            [items]="selectItems"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-danger me-3"
+        (click)="onSubmitArea()"
+        [disabled]="frma.invalid"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Save click')"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!--Add edit Location-->
+<ng-template #contentLocation let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
+    <button
+      #closebutton
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="frml" autocomplete="off">
+    <div class="modal-body">
+      <div class="row mb-2">
+        <label for="AreaName" class="col-sm-4 col-form-label"
+          >Location Code</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="location_name"
+            class="form-control"
+            id="RegionName1"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="regionDirectorName" class="col-sm-4 col-form-label"
+          >Location Short Name</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="location_short_name"
+            class="form-control"
+            id="regionDirectorName"
+          />
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+        <label for="eDate" class="col-sm-4 col-form-label"
+          >Effective Start Date</label
+        >
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <div class="input-group">
+            <input
+              id="eDate"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              name="dp"
+              formControlName="estartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <button
+              class="btn btn-outline-secondary bi bi-calendar3"
+              (click)="d.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <input
+            type="text"
+            formControlName="estartDate"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div> 
+      </div>-->
+      <div class="row">
+        <label for="sel1" class="col-sm-4 col-form-label">Status</label>
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <input
+            type="text"
+            formControlName="status"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="status"
+            [items]="selectItems"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<!-- Add edit Job code -->
+<ng-template #contentJobCode let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
+    <button
+      #closebutton
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="frmj" autocomplete="off">
+    <div class="modal-body">
+      <!-- <div class="row mb-2">
+        <label for="job_code" class="col-sm-4 col-form-label">Job Code</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="job_code"
+            class="form-control"
+            id="job_code"
+          />
+        </div>
+      </div> -->
+      <div class="row mb-2">
+        <label for="job_title" class="col-sm-4 col-form-label">Job Name</label>
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="job_title"
+            class="form-control"
+            id="job_title"
+          />
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="job_type" class="col-sm-4 col-form-label">Job Types</label>
+        <div class="col-sm-8">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="job_type"
+            [items]="job_types"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+          <!-- <input type="text" formControlName="job_type" class="form-control" id="job_type"> -->
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+        <label for="bus_type" class="col-sm-4 col-form-label">Bus Type</label>
+        <div class="col-sm-8">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="bus_type"
+            [items]="bus_types"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div> -->
+      <!-- <div class="row mb-2">
+        <label for="job_family" class="col-sm-4 col-form-label"
+          >Job Family</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="job_family"
+            class="form-control"
+            id="job_family"
+          />
+        </div>
+      </div> -->
+      <div class="row mb-2">
+        <label for="job_adp_code" class="col-sm-4 col-form-label"
+          >Job ADP Code</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="job_adp_code"
+            class="form-control"
+            id="job_adp_code"
+          />
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+        <label for="eDate" class="col-sm-4 col-form-label"
+          >Effective Start Date</label
+        >
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <div class="input-group">
+            <input
+              id="eDate"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              name="dp"
+              formControlName="estartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <button
+              class="btn btn-outline-secondary bi bi-calendar3"
+              (click)="d.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <input
+            type="text"
+            formControlName="estartDate"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div> -->
+
+      <div class="row mb-2">
+        <label for="sel1" class="col-sm-4 col-form-label">Manager Flag</label>
+        <div class="col-sm-8">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="manager_flag"
+            [items]="selectItems_y_n"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="sel1" class="col-sm-4 col-form-label"
+          >Approval Required</label
+        >
+        <div class="col-sm-8">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="approval_required"
+            [items]="selectItems_y_n"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="sel1" class="col-sm-4 col-form-label">Auto Add</label>
+        <div class="col-sm-8">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="auto_add"
+            [items]="selectItems_y_n"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+      <div class="row">
+        <label for="sel1" class="col-sm-4 col-form-label">Status</label>
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <input
+            type="text"
+            formControlName="status"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="status"
+            [items]="selectItems"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+			<label for="sel1" class="col-sm-4 col-form-label">Auto Add:</label>
+			<div class="col-sm-8">
+			  <ngx-select [allowClear]="true" [items]="selectItems" optionValueField="optionId"
+				optionTextField="optionTitle" placeholder="Select">
+			  </ngx-select>
+			</div>
+		  </div> -->
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-danger me-3"
+        (click)="onSubmitJobCode()"
+        [disabled]="frmj.invalid"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Save click')"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!--Add edit Team Types -->
+<ng-template #contentTeamTypes let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
+    <button
+      #closebutton
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="frmtt" autocomplete="off">
+    <div class="modal-body">
+      <!-- <div class="row mb-2">
+			<label for="team_types_id" class="col-sm-4 col-form-label">Team Type Id</label>
+			<div class="col-sm-8">
+			  <input type="text" formControlName="team_types_id" class="form-control" id="team_types_id">
+			</div>
+		  </div> -->
+      <div class="row mb-2">
+        <label for="team_type_name" class="col-sm-4 col-form-label"
+          >Team Type Name</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="team_type_name"
+            class="form-control"
+            id="team_type_name"
+          />
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+        <label for="eDate" class="col-sm-4 col-form-label"
+          >Effective Start Date</label
+        >
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <div class="input-group">
+            <input
+              id="eDate"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              name="dp"
+              formControlName="estartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <button
+              class="btn btn-outline-secondary bi bi-calendar3"
+              (click)="d.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <input
+            type="text"
+            formControlName="estartDate"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div> -->
+      <div class="row">
+        <label for="sel1" class="col-sm-4 col-form-label">Status</label>
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <input
+            type="text"
+            formControlName="status"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="status"
+            [items]="selectItems"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-danger me-3"
+        (click)="onSubmitTeamTypes()"
+        [disabled]="frmtt.invalid"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Save click')"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<!--Add edit Notification-->
+<ng-template #contentNotification let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ modalTitle }}</h4>
+    <button
+      type="button"
+      class="btn-close"
+      #closebutton11
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <form [formGroup]="frmn" autocomplete="off">
+    <div class="modal-body">
+      <div class="row mb-2">
+        <label for="notification_name" class="col-sm-4 col-form-label"
+          >Notification Name</label
+        >
+        <!-- <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="notification_name"
+            class="form-control"
+            id="notification_name"
+          />
+        </div> -->
+        <div class="col-sm-8">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="notification_name"
+            [items]="notification_types"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label for="notification_email_id" class="col-sm-4 col-form-label"
+          >Email Id</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="notification_email_id"
+            class="form-control"
+            id="notification_email_id"
+          />
+        </div>
+      </div>
+      <!-- <div class="row mb-2">
+        <label for="notification_subject" class="col-sm-4 col-form-label"
+          >Notification Subject</label
+        >
+        <div class="col-sm-8">
+          <input
+            type="text"
+            formControlName="notification_subject"
+            class="form-control"
+            id="notification_subject"
+          />
+        </div>
+      </div> -->
+      <!-- <div class="row mb-2">
+        <label for="eDate" class="col-sm-4 col-form-label"
+          >Effective Start Date</label
+        >
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <div class="input-group">
+            <input
+              id="eDate"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              name="dp"
+              formControlName="estartDate"
+              ngbDatepicker
+              #d="ngbDatepicker"
+            />
+            <button
+              class="btn btn-outline-secondary bi bi-calendar3"
+              (click)="d.toggle()"
+              type="button"
+            ></button>
+          </div>
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <input
+            type="text"
+            formControlName="estartDate"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div> -->
+      <div class="row">
+        <label for="sel1" class="col-sm-4 col-form-label">Status</label>
+        <div class="col-sm-8" *ngIf="isRecordAdd">
+          <input
+            type="text"
+            formControlName="status"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="col-sm-8" *ngIf="!isRecordAdd">
+          <ngx-select
+            [allowClear]="true"
+            formControlName="status"
+            [items]="selectItems"
+            optionValueField="optionId"
+            optionTextField="optionTitle"
+            placeholder="Select"
+          >
+          </ngx-select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        class="btn btn-danger me-3"
+        (click)="onSubmitNotification()"
+        [disabled]="frmn.invalid"
+      >
+        Submit
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Save click')"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</ng-template>

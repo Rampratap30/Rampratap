@@ -1,0 +1,2690 @@
+<section class="main">
+  <div class="container p-0 mb-50">
+    <div class="col-sm-12 page-head">
+      <a routerLink="/changes" class="page-head-link"> Changes </a>
+      <span style="font-size: 1.1rem">></span>
+      <a href="javascript:void(0);" class="page-head-link-active">
+        View Changes
+      </a>
+      <span style="font-size: 1.1rem" *ngIf="employee"> > </span
+      ><a href="javascript:void(0);" class="page-head-link" *ngIf="employee">{{
+        employee["employee"]?.employee_name || ""
+      }}</a>
+    </div>
+  </div>
+  <div class="container" *ngIf="employee && responseData">
+    <div class="row align-items-start">
+      <form [formGroup]="frm" autocomplete="off">
+        <div class="row align-items-start">
+          <div class="col-sm-6 mb-1 p-0">
+            <button
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target=".multi-collapse"
+              aria-expanded="false"
+              aria-controls="collapseEmpMain collapseHierarchy collapseManager collapseEJ collapseService collapseOFSC collapseHrStatus collapseAdmin collapseSystem collapseHierarchyDetails collapseChangeSystem"
+              class="btn btn-outline-danger me-2"
+            >
+              Toggle All
+            </button>
+          </div>
+          <div class="col-sm-6 mb-1 d-flex justify-content-end">
+            <!-- <button
+              [disabled]="frm.invalid"
+              (click)="onSubmit()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+              *ngIf="
+                responseData['change_system'].change_status == 'Pending' &&
+                getRole == 'ADMIN'
+              "
+            >
+              Save
+            </button>
+            <button
+              [disabled]="frm.invalid"
+              (click)="onSubmit()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+              *ngIf="
+                responseData['change_system'].change_status == 'Pending' &&
+                getRole == 'MANAGER' &&
+                user_id == responseData['change_system'].requested_by
+              "
+            >
+              Save
+            </button> -->
+            <button
+              [disabled]="frm.invalid"
+              *ngIf="
+                responseData['change_system'].change_status == 'Pending' &&
+                getRole == 'ADMIN'
+              "
+              (click)="onApprove()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+            >
+              Approve
+            </button>
+            <button
+              *ngIf="
+                responseData['change_system'].change_status == 'Pending' &&
+                getRole == 'ADMIN'
+              "
+              (click)="onReject()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+            >
+              Reject
+            </button>
+            <button
+              (click)="onReject()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+              *ngIf="
+                responseData['change_system'].change_status == 'Pending' &&
+                getRole == 'MANAGER' &&
+                user_id == responseData['change_system'].requested_by_id
+              "
+            >
+              Reject
+            </button>
+            <button
+              (click)="onCancel()"
+              type="button"
+              class="btn btn-outline-danger"
+            >
+              Go Back
+            </button>
+          </div>
+        </div>
+        <div class="row border">
+          <div class="col-sm-2 p-0 m-0">
+            <div class="row borderp-0 m-0">
+              <div class="col-sm-12 p-0 mb-1">
+                <div class="list-group" role="tablist">
+                  <button
+                    role="tab"
+                    type="button"
+                    (click)="displayDetail($event, 'changeMainAccordion')"
+                    class="list-group-item list-group-item-action active"
+                    id="btn_change_main"
+                  >
+                    Change Main
+                    <span class="required" *ngIf="frmChangeMain.invalid"
+                      >*</span
+                    >
+                  </button>
+                  <button
+                    role="tab"
+                    type="button"
+                    (click)="displayDetail($event, 'employeeAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_employee_main"
+                  >
+                    Employee Main
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'hierarchyAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_hierarchy"
+                  >
+                    Hierarchy
+                    <span class="required" *ngIf="frmHierarchy.invalid">*</span>
+                    <span
+                      [ngClass]="
+                        summaryRegion || summaryASN ? 'bi bi-triangle ' : ''
+                      "
+                    ></span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'managerAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_manager"
+                  >
+                    Manager
+                    <span class="required" *ngIf="frmManager.invalid">*</span>
+                    <span
+                      [ngClass]="summaryManagerEMPId ? 'bi bi-triangle ' : ''"
+                    ></span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'empJobAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_employee_job"
+                  >
+                    Employee Job
+                    <span class="required" *ngIf="frmEmpJob.invalid">*</span>
+                    <span
+                      [ngClass]="summaryJobADPCode ? 'bi bi-triangle ' : ''"
+                    ></span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'serviceAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_service"
+                  >
+                    Service
+                    <span class="required" *ngIf="frmService.invalid">*</span>
+                    <span
+                      [ngClass]="
+                        summaryBO ||
+                        summaryJobType ||
+                        summaryTeamType ||
+                        summaryWS ||
+                        summaryOnCall ||
+                        summaryOnSite ||
+                        summaryDedicated ||
+                        summaryDedicatedTo ||
+                        summarySA ||
+                        summaryFSStatus ||
+                        summarySSD ||
+                        summarySED ||
+                        summaryRC
+                          ? 'bi bi-triangle '
+                          : ''
+                      "
+                    ></span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'ofscAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_ofsc"
+                  >
+                    OFSC
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'hrStatusAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_hr_status"
+                  >
+                    HR Status
+                    <span
+                      [ngClass]="
+                        summaryASD || summaryAED || summaryARTW
+                          ? 'bi bi-triangle '
+                          : ''
+                      "
+                    ></span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'adminAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_admin"
+                  >
+                    Admin
+                    <span class="required" *ngIf="frmAdmin.invalid">*</span>
+                    <span
+                      [ngClass]="summaryManagerFlag ? 'bi bi-triangle ' : ''"
+                    ></span>
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'systemAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_system"
+                  >
+                    System
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'hierDetailsAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_hierarchy_details"
+                  >
+                    Hierarchy Details
+                  </button>
+                  <button
+                    type="button"
+                    (click)="displayDetail($event, 'changeSystemAccordion')"
+                    class="list-group-item list-group-item-action"
+                    id="btn_change_system"
+                  >
+                    Change System
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-10 p-1 m-0">
+            <div
+              class="row overflow-auto"
+              style="height: 70vh"
+              id="containerAccordion"
+            >
+              <div class="accordion" id="accordionExample">
+                <div
+                  class="accordion-item"
+                  id="changeMainAccordion"
+                  [formGroup]="frmChangeMain"
+                >
+                  <h2 class="accordion-header" id="headingChangeMain">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseChangeMain"
+                      aria-expanded="false"
+                      aria-controls="collapseChangeMain"
+                    >
+                      Change Main
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseChangeMain"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingChangeMain"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label for="changeNote" class="form-label">
+                            Change Id
+                            <span class="required">*</span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ responseData["change_system"]?.change_id || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label for="changeNote" class="form-label">
+                            Change Notes
+                            <span class="required">*</span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{
+                              responseData["change_system"]?.change_note || ""
+                            }}
+                          </div>
+                          <input
+                            type="text"
+                            formControlName="change_note"
+                            class="form-control"
+                            id="change_note"
+                            [readonly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label for="change_effective_date" class="form-label">
+                            Change Effective Date
+                            <span class="required">*</span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{
+                              responseData["change_system"]
+                                ?.change_effective_date || ""
+                            }}
+                          </div>
+
+                          <div class="input-group">
+                            <input
+                              #d3="ngbDatepicker"
+                              id="change_effective_date"
+                              class="form-control"
+                              placeholder="mm/dd/yyyy"
+                              formControlName="change_effective_date"
+                              ngbDatepicker
+                              [readonly]="true"
+                            />
+                            <!-- <button
+                              (click)="d3.toggle()"
+                              class="btn btn-outline-secondary bi bi-calendar3"
+                              type="button"
+                            ></button> -->
+                          </div>
+                        </div>
+                        <ng-container
+                          *ngTemplateOutlet="changeSummaryTemplate"
+                        ></ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="accordion-item"
+                  id="employeeAccordion"
+                  [formGroup]="frmEmpD"
+                >
+                  <h2 class="accordion-header" id="headingEmpMain">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseEmpMain"
+                      aria-expanded="false"
+                      aria-controls="collapseEmpMain"
+                    >
+                      Employee Main
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseEmpMain"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingEmpMain"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label for="formGroupExampleInput" class="form-label">
+                            Employee ID
+                          </label>
+                          <div class="fw-bold">
+                            {{ responseData["employee"]?.employee_id || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Resource Number
+                          </label>
+                          <div class="fw-bold">
+                            {{ employee["employee"].resource_number || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput3"
+                            class="form-label"
+                          >
+                            Employee Name
+                          </label>
+                          <div class="fw-bold">
+                            {{ employee["employee"].employee_name || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput4"
+                            class="form-label"
+                          >
+                            Employee Email
+                          </label>
+                          <div class="fw-bold">
+                            {{ employee["employee"].email || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput5"
+                            class="form-label"
+                          >
+                            Additional Email
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["ofsc"].alternate_email || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label for="admin_notes" class="form-label">
+                            Admin Notes
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["employee"].admin_notes || "" }}
+                          </div>
+                          <input
+                            type="text"
+                            formControlName="admin_notes"
+                            class="form-control"
+                            id="admin_notes"
+                            [readOnly]="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="accordion-item"
+                  id="hierarchyAccordion"
+                  [formGroup]="frmHierarchy"
+                >
+                  <h2 class="accordion-header" id="headingHierarchy">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseHierarchy"
+                      aria-expanded="true"
+                      aria-controls="collapseHierarchy"
+                    >
+                      Hierarchy
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseHierarchy"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingHierarchy"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 accordion-content">
+                        <div class="col-sm-12 mb-1">
+                          <div class="mb-1">
+                            <label for="region_name" class="form-label">
+                              Region
+                              <span class="required">*</span>
+                              <span
+                                [ngClass]="
+                                  employee['hierarchy']?.region_name !=
+                                  responseData['hierarchy']?.region_name
+                                    ? 'bi bi-triangle '
+                                    : ''
+                                "
+                              ></span>
+                            </label>
+                            <div class="fw-bold mb-1">
+                              {{ employee["hierarchy"].region_name || "" }}
+                            </div>
+                            <!-- <ngx-select
+                              [allowClear]="true"
+                              [items]="regionList"
+                              formControlName="region"
+                              optionValueField="region_name"
+                              optionTextField="region_name"
+                              placeholder="Select"
+                              (select)="regionChanged()"
+                              (remove)="regionDoRemove()"
+                            >
+                            </ngx-select> -->
+                            <input
+                              type="text"
+                              formControlName="region"
+                              class="form-control"
+                              id="region"
+                              [readOnly]="true"
+                            />
+                          </div>
+                          <div class="mb-1">
+                            <label for="areaShort" class="form-label">
+                              Area Short Name
+                              <span class="required">*</span>
+                              <span
+                                [ngClass]="
+                                  employee['hierarchy']?.area_short_name !=
+                                  responseData['hierarchy']?.area_short_name
+                                    ? 'bi bi-triangle rac-warning-color'
+                                    : ''
+                                "
+                              ></span>
+                            </label>
+                            <div class="fw-bold mb-1">
+                              {{ employee["hierarchy"].area_short_name || "" }}
+                            </div>
+                            <!-- <ngx-select
+                              [allowClear]="true"
+                              [items]="areaList"
+                              formControlName="area_short_name"
+                              optionValueField="area_short_name"
+                              optionTextField="area_short_name"
+                              placeholder="Select"
+                            >
+                            </ngx-select> -->
+                            <input
+                              type="text"
+                              formControlName="area_short_name"
+                              class="form-control"
+                              id="area_short_name"
+                              [readOnly]="true"
+                            />
+                          </div>
+                          <div class="mb-1">
+                            <label class="form-label"
+                              >Region and Area Match to Manager</label
+                            >
+                            <div class="fw-bold">
+                              {{
+                                employee["hierarchy"]?.location_match_to_hr ||
+                                  ""
+                              }}
+                              <span
+                                [ngClass]="
+                                  employee['hierarchy']?.location_match_to_hr ==
+                                  'Yes'
+                                    ? 'bi bi-check2-circle green-color'
+                                    : 'bi bi-x-circle red-color'
+                                "
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          class="accordion"
+                          id="sub-accordionExample"
+                          *ngIf="
+                            responseData['change_system'].change_status ==
+                            'Pending'
+                          "
+                        >
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="sub-headingTwo">
+                              <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#sub-collapseTwo"
+                                aria-expanded="false"
+                                aria-controls="sub-collapseTwo"
+                              >
+                                Manager Hierarchy
+                              </button>
+                            </h2>
+                            <div
+                              id="sub-collapseTwo"
+                              class="accordion-collapse collapse"
+                              aria-labelledby="sub-headingTwo"
+                              data-bs-parent-comment="#sub-accordionExample"
+                            >
+                              <div class="accordion-body">
+                                <div class="mb-1">
+                                  <label class="form-label"
+                                    >System Region</label
+                                  >
+                                  <div class="fw-bold">
+                                    {{
+                                      employee["hierarchy"]["system"]
+                                        .system_region_name || ""
+                                    }}
+                                  </div>
+                                </div>
+
+                                <div class="mb-1">
+                                  <label class="form-label"
+                                    >System Area Short</label
+                                  >
+                                  <div class="fw-bold">
+                                    {{
+                                      employee["hierarchy"]["system"]
+                                        .system_area_short_name || ""
+                                    }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="accordion-item"
+                  id="managerAccordion"
+                  [formGroup]="frmManager"
+                >
+                  <h2 class="accordion-header" id="headingManager">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseManager"
+                      aria-expanded="false"
+                      aria-controls="collapseManager"
+                    >
+                      Manager
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseManager"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingManager"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 accordion-content">
+                        <div class="col-sm-12 mb-1">
+                          <div class="mb-1">
+                            <label class="form-label">Manager Name</label>
+                            <ng-template
+                              [ngIf]="
+                                responseData['change_system'].change_type ==
+                                'ADD'
+                              "
+                              [ngIfElse]="othermanager"
+                            >
+                              <div class="fw-bold">
+                                {{ responseData["manager"].manager_name || "" }}
+                              </div>
+                            </ng-template>
+                            <ng-template #othermanager>
+                              <div class="fw-bold">
+                                {{ employee["manager"].manager_name || "" }}
+                              </div>
+                            </ng-template>
+                          </div>
+                          <div class="mb-1">
+                            <label for="manager_employee_id" class="form-label">
+                              Manager Employee ID
+                              <span class="required">*</span>
+                              <span
+                                [ngClass]="
+                                  employee['manager'].manager_employee_id !=
+                                  responseData['manager'].manager_employee_id
+                                    ? 'bi bi-triangle rac-warning-color'
+                                    : ''
+                                "
+                              ></span>
+                            </label>
+                            <div class="fw-bold mb-1">
+                              {{
+                                employee["manager"].manager_employee_id || ""
+                              }}
+                            </div>
+                            <!-- <ngx-select
+                              [allowClear]="true"
+                              [items]="managerList"
+                              formControlName="manager_employee_id"
+                              optionValueField="manager_id"
+                              optionTextField="manageridandname"
+                              placeholder="Select"
+                            >
+                            </ngx-select> -->
+                            <input
+                              type="text"
+                              formControlName="manager_employee_id"
+                              class="form-control"
+                              id="manager_employee_id"
+                              [readOnly]="true"
+                            />
+                          </div>
+                          <div class="mb-1">
+                            <label class="form-label">
+                              Manager Resource Number
+                            </label>
+                            <ng-template
+                              [ngIf]="
+                                responseData['change_system'].change_type ==
+                                'ADD'
+                              "
+                              [ngIfElse]="otherresource"
+                            >
+                              <div class="fw-bold">
+                                {{
+                                  responseData["manager"].resource_number || ""
+                                }}
+                              </div>
+                            </ng-template>
+                            <ng-template #otherresource>
+                              <div class="fw-bold">
+                                {{
+                                  responseData["manager"].resource_number || ""
+                                }}
+                              </div>
+                            </ng-template>
+                          </div>
+                          <div class="mb-1">
+                            <label class="form-label">Manager Email</label>
+                            <ng-template
+                              [ngIf]="
+                                responseData['change_system'].change_type ==
+                                'ADD'
+                              "
+                              [ngIfElse]="otheremail"
+                            >
+                              <div class="fw-bold">
+                                {{ responseData["manager"].email || "" }}
+                              </div>
+                            </ng-template>
+                            <ng-template #otheremail>
+                              <div class="fw-bold">
+                                {{ responseData["manager"].email || "" }}
+                              </div>
+                            </ng-template>
+                          </div>
+                          <div class="mb-1">
+                            <label class="form-label"
+                              >Manager Match to HR</label
+                            >
+                            <div class="fw-bold">
+                              {{
+                                employee["manager"]?.manager_match_to_hr || ""
+                              }}
+                              <span
+                                [ngClass]="
+                                  employee['manager']?.manager_match_to_hr ==
+                                  'Yes'
+                                    ? 'bi bi-check2-circle green-color'
+                                    : 'bi bi-x-circle red-color'
+                                "
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="accordion"
+                          id="sub-accordionExampleManager"
+                          *ngIf="
+                            responseData['change_system'].change_status ==
+                            'Pending'
+                          "
+                        >
+                          <div class="accordion-item">
+                            <h2
+                              class="accordion-header"
+                              id="sub-headingTwoManager"
+                            >
+                              <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#sub-collapseTwoManager"
+                                aria-expanded="false"
+                                aria-controls="sub-collapseTwoManager"
+                              >
+                                System
+                              </button>
+                            </h2>
+                            <div
+                              id="sub-collapseTwoManager"
+                              class="accordion-collapse collapse"
+                              aria-labelledby="sub-headingTwoManager"
+                              data-bs-parent-comment="#sub-accordionExampleManager"
+                            >
+                              <div class="accordion-body">
+                                <div class="mb-1">
+                                  <label class="form-label"
+                                    >HR Manager Name</label
+                                  >
+                                  <div class="fw-bold">
+                                    {{
+                                      employee["manager"]["system"]
+                                        .system_manager_name || ""
+                                    }}
+                                  </div>
+                                </div>
+                                <div class="mb-1">
+                                  <label class="form-label">
+                                    HR Manager Employee ID
+                                  </label>
+                                  <div class="fw-bold">
+                                    {{
+                                      employee["manager"]["system"]
+                                        .system_manager_employee_id || ""
+                                    }}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="accordion-item"
+                  id="empJobAccordion"
+                  [formGroup]="frmEmpJob"
+                >
+                  <h2 class="accordion-header" id="headingEJ">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseEJ"
+                      aria-expanded="false"
+                      aria-controls="collapseEJ"
+                    >
+                      Employee Job
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseEJ"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingEJ"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <ng-template
+                          [ngIf]="getRole == 'ADMIN'"
+                          [ngIfElse]="otherUser"
+                        >
+                          <div class="mb-1">
+                            <label for="job_title" class="form-label">
+                              Job Title
+                              <span class="required">*</span>
+                            </label>
+                            <div class="fw-bold mb-1">
+                              {{
+                                employee["employee_job_code"].job_title || ""
+                              }}
+                            </div>
+                            <input
+                              type="text"
+                              formControlName="job_title"
+                              class="form-control"
+                              id="job_title"
+                              [readonly]="true"
+                            />
+                          </div>
+
+                          <div class="mb-1">
+                            <label for="job_adp_code" class="form-label">
+                              Job ADP Code
+                              <span class="required">*</span>
+                              <span
+                                [ngClass]="
+                                  employee['employee_job_code']?.job_adp_code !=
+                                  responseData['employee_job_code']
+                                    ?.job_adp_code
+                                    ? 'bi bi-triangle rac-warning-color'
+                                    : ''
+                                "
+                              ></span>
+                            </label>
+                            <div class="fw-bold mb-1">
+                              {{
+                                employee["employee_job_code"].job_adp_code || ""
+                              }}
+                            </div>
+                            <!-- <ngx-select
+                              [allowClear]="true"
+                              [items]="jobCodeList"
+                              formControlName="job_id"
+                              optionValueField="job_id"
+                              optionTextField="jobidandname"
+                              placeholder="Select"
+                              displayKey="job_title"
+                              (select)="
+                                bindJobCodeData(frm.get('job_id')?.value)
+                              "
+                              (remove)="doRemove($event)"
+                            >
+                            </ngx-select> -->
+                            <input
+                              type="text"
+                              formControlName="job_adp_code"
+                              class="form-control"
+                              id="job_adp_code"
+                              [readOnly]="true"
+                            />
+                          </div>
+                          <div class="mb-1">
+                            <label for="job_type" class="form-label">
+                              Job Type
+                              <span class="required">*</span>
+                            </label>
+                            <div class="fw-bold mb-1">
+                              {{ employee["employee_job_code"].job_type || "" }}
+                            </div>
+                            <input
+                              type="text"
+                              formControlName="job_type"
+                              class="form-control"
+                              id="job_type"
+                              [readonly]="true"
+                            />
+                          </div>
+                        </ng-template>
+                        <ng-template #otherUser>
+                          <div class="mb-1">
+                            <label class="form-label">Job Title</label>
+                            <div class="fw-bold">
+                              {{
+                                employee["employee_job_code"].job_title || ""
+                              }}
+                            </div>
+                          </div>
+
+                          <div class="mb-1">
+                            <label class="form-label">Job ADP Code</label>
+                            <div class="fw-bold">
+                              {{
+                                employee["employee_job_code"].job_adp_code || ""
+                              }}
+                            </div>
+                          </div>
+                          <div class="mb-1">
+                            <label class="form-label">Job Type</label>
+                            <div class="fw-bold">
+                              {{ employee["employee_job_code"].job_type || "" }}
+                            </div>
+                          </div>
+                        </ng-template>
+                        <div class="mb-1">
+                          <label class="form-label">Job Match to HR</label>
+                          <div class="fw-bold">
+                            {{
+                              employee["employee_job_code"]?.job_match_to_hr ||
+                                ""
+                            }}
+                            <span
+                              [ngClass]="
+                                employee['employee_job_code']
+                                  ?.job_match_to_hr == 'Yes'
+                                  ? 'bi bi-check2-circle green-color'
+                                  : 'bi bi-x-circle red-color'
+                              "
+                            ></span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="accordion"
+                        id="sub-accordionExampleEJ"
+                        *ngIf="
+                          responseData['change_system'].change_status ==
+                          'Pending'
+                        "
+                      >
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="sub-headingEJ">
+                            <button
+                              class="accordion-button collapsed"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#sub-collapseEJ"
+                              aria-expanded="false"
+                              aria-controls="sub-collapseEJ"
+                            >
+                              System
+                            </button>
+                          </h2>
+                          <div
+                            id="sub-collapseEJ"
+                            class="accordion-collapse collapse"
+                            aria-labelledby="sub-headingEJ"
+                            data-bs-parent-comment="#sub-accordionExampleEJ"
+                          >
+                            <div class="accordion-body">
+                              <div class="mb-1">
+                                <label class="form-label">HR Job Title</label>
+                                <div class="fw-bold">
+                                  {{
+                                    employee["employee_job_code"]["system"]
+                                      .system_job_title || ""
+                                  }}
+                                </div>
+                              </div>
+
+                              <div class="mb-1">
+                                <label class="form-label"
+                                  >HR Job ADP Code</label
+                                >
+                                <div class="fw-bold">
+                                  {{
+                                    employee["employee_job_code"]["system"]
+                                      .system_job_adp_code || ""
+                                  }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="accordion-item"
+                  id="serviceAccordion"
+                  [formGroup]="frmService"
+                >
+                  <h2 class="accordion-header" id="headingService">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseService"
+                      aria-expanded="false"
+                      aria-controls="collapseService"
+                    >
+                      Service
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseService"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingService"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label class="form-label"
+                            >Business Org
+                            <span class="required">*</span>
+                            <span
+                              [ngClass]="
+                                employee['service'].business_org !=
+                                responseData['service'].business_org
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold">
+                            {{ employee["service"].business_org || "" }}
+                          </div>
+                          <input
+                            type="text"
+                            formControlName="business_org"
+                            class="form-control"
+                            id="business_org"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Team Type
+                            <span class="required">*</span>
+                            <span
+                              [ngClass]="
+                                employee['service'].team_type !=
+                                responseData['service'].team_type
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].team_type || "" }}
+                          </div>
+                          <div class="mb-1">
+                            <!-- <ngx-select
+                              [allowClear]="true"
+                              [items]="teamtypeList"
+                              formControlName="team_type"
+                              optionValueField="team_type_name"
+                              optionTextField="team_type_name"
+                              placeholder="Select"
+                            >
+                            </ngx-select> -->
+                            <input
+                              type="text"
+                              formControlName="team_type"
+                              class="form-control"
+                              id="team_type"
+                              [readOnly]="true"
+                            />
+                          </div>
+                        </div>
+                        <!-- <div class="mb-1">
+                          <label class="form-label">CIP</label>
+
+                          <div class="fw-bold">
+                            {{ employee["service"].cip || "" }}
+                          </div>
+                        </div> -->
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Work Shift (1st, 2nd, 3rd)
+                            <span
+                              [ngClass]="
+                                employee['service']?.work_shift !=
+                                responseData['service']?.work_shift
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].work_shift || "" }}
+                          </div>
+
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="workShiftDropDown"
+                            formControlName="work_shift"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="work_shift"
+                            class="form-control"
+                            id="work_shift"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label"
+                            >On Call
+                            <span
+                              [ngClass]="
+                                employee['service']?.on_call !=
+                                responseData['service']?.on_call
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].on_call || "" }}
+                          </div>
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="selectItems"
+                            formControlName="on_call"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="on_call"
+                            class="form-control"
+                            id="on_call"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label"
+                            >On Site
+                            <span
+                              [ngClass]="
+                                employee['service']?.on_site !=
+                                responseData['service']?.on_site
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].on_site || "" }}
+                          </div>
+
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="onSiteDropDown"
+                            formControlName="on_site"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="on_site"
+                            class="form-control"
+                            id="on_site"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label"
+                            >Dedicated
+                            <span
+                              [ngClass]="
+                                employee['service']?.dedicated !=
+                                responseData['service']?.dedicated
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].dedicated || "" }}
+                          </div>
+
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="selectItems"
+                            formControlName="dedicated"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="dedicated"
+                            class="form-control"
+                            id="dedicated"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label"
+                            >Dedicated To
+                            <span class="required" *ngIf="isDedicatedTo"
+                              >*</span
+                            >
+                            <span
+                              [ngClass]="
+                                employee['service']?.dedicated_to !=
+                                responseData['service']?.dedicated_to
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].dedicated_to || "" }}
+                          </div>
+                          <input
+                            type="text"
+                            formControlName="dedicated_to"
+                            class="form-control"
+                            id="dedicated_to"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label"
+                            >Service Advantage
+                            <span
+                              [ngClass]="
+                                employee['service']?.service_advantage !=
+                                responseData['service']?.service_advantage
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].service_advantage || "" }}
+                          </div>
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="selectItems"
+                            formControlName="service_advantage"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="service_advantage"
+                            class="form-control"
+                            id="service_advantage"
+                            [readOnly]="true"
+                          />
+                        </div>
+
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Contingent Workers (Y/N)
+                          </label>
+                          <div class="fw-bold">
+                            {{ employee["service"].contingent_worker || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            FS Status
+                            <span class="required">*</span>
+                            <span
+                              [ngClass]="
+                                employee['service']?.fs_status !=
+                                responseData['service']?.fs_status
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].fs_status || "" }}
+                          </div>
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="selectActive"
+                            formControlName="fs_status"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="fs_status"
+                            class="form-control"
+                            id="fs_status"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Service Start Date
+                            <span class="required">*</span>
+                            <span
+                              [ngClass]="
+                                employee['service']?.service_start_date !=
+                                responseData['service']?.service_start_date
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].service_start_date || "" }}
+                          </div>
+                          <div class="input-group">
+                            <input
+                              id="service_start_date"
+                              class="form-control"
+                              placeholder="mm/dd/yyyy"
+                              formControlName="service_start_date"
+                              ngbDatepicker
+                              [readonly]="true"
+                            />
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label"
+                            >Service End Date
+                            <span
+                              [ngClass]="
+                                employee['service']?.service_end_date !=
+                                responseData['service']?.service_end_date
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].service_end_date || "" }}
+                          </div>
+                          <div class="input-group">
+                            <input
+                              id="service_end_date"
+                              class="form-control"
+                              placeholder="mm/dd/yyyy"
+                              formControlName="service_end_date"
+                              ngbDatepicker
+                              [readonly]="true"
+                            />
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Record Complete
+                            <span class="required">*</span>
+                            <span
+                              [ngClass]="
+                                employee['service']?.record_complete !=
+                                responseData['service']?.record_complete
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["service"].record_complete || "" }}
+                          </div>
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="selectItems"
+                            formControlName="record_complete"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="record_complete"
+                            class="form-control"
+                            id="record_complete"
+                            [readOnly]="true"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item" id="ofscAccordion">
+                  <h2 class="accordion-header" id="headingOFSC">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseOFSC"
+                      aria-expanded="false"
+                      aria-controls="collapseOFSC"
+                    >
+                      OFSC
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseOFSC"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingOFSC"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label class="form-label">OFSC Status</label>
+
+                          <div class="fw-bold">
+                            {{ employee["ofsc"].status || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label"> Additional Email </label>
+                          <div class="fw-bold">
+                            {{ employee["ofsc"].alternate_email || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            OFSC Production Print
+                          </label>
+                          <div class="fw-bold">
+                            {{ employee["ofsc"].production_print || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">OFSC Last Login</label>
+                          <div class="fw-bold">
+                            {{ employee["ofsc"].last_login || "" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="accordion-item"
+                  id="hrStatusAccordion"
+                  [formGroup]="frmHrStatus"
+                >
+                  <h2 class="accordion-header" id="headingHrStatus">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseHrStatus"
+                      aria-expanded="false"
+                      aria-controls="collapseHrStatus"
+                    >
+                      HR Status
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseHrStatus"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingHrStatus"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Actual Termination Date
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["hr_status"]
+                                .actual_termination_date || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">HR Status</label>
+                          <div class="fw-bold">
+                            {{ responseData["hr_status"].hr_status || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Absence Start Date</label>
+                          <span
+                            [ngClass]="
+                              employee['hr_status']?.absence_start_date !=
+                              responseData['hr_status']?.absence_start_date
+                                ? 'bi bi-triangle rac-warning-color'
+                                : ''
+                            "
+                          ></span>
+                          <div class="fw-bold">
+                            {{ employee["hr_status"].absence_start_date || "" }}
+                          </div>
+                          <div class="input-group">
+                            <input
+                              #d2="ngbDatepicker"
+                              id="absence_start_date"
+                              class="form-control"
+                              formControlName="absence_start_date"
+                              ngbDatepicker
+                              [readonly]="true"
+                            />
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Absence End Date</label>
+                          <span
+                            [ngClass]="
+                              employee['hr_status']?.absence_end_date !=
+                              responseData['hr_status']?.absence_end_date
+                                ? 'bi bi-triangle rac-warning-color'
+                                : ''
+                            "
+                          ></span>
+                          <div class="fw-bold">
+                            {{ employee["hr_status"].absence_end_date || "" }}
+                          </div>
+                          <div class="input-group">
+                            <input
+                              #d2="ngbDatepicker"
+                              id="absence_end_date"
+                              class="form-control"
+                              formControlName="absence_end_date"
+                              ngbDatepicker
+                              [readonly]="true"
+                            />
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Actual Return to Work
+                          </label>
+                          <span
+                            [ngClass]="
+                              employee['hr_status']?.actual_return_to_work !=
+                              responseData['hr_status']?.actual_return_to_work
+                                ? 'bi bi-triangle rac-warning-color'
+                                : ''
+                            "
+                          ></span>
+                          <div class="fw-bold">
+                            {{
+                              employee["hr_status"].actual_return_to_work || ""
+                            }}
+                          </div>
+                          <input
+                            #d2="ngbDatepicker"
+                            id="actual_return_to_work"
+                            class="form-control"
+                            [readonly]="true"
+                            ngbDatepicker
+                            type="text"
+                            formControlName="actual_return_to_work"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Last Hire Date</label>
+                          <div class="fw-bold">
+                            {{ responseData["hr_status"].last_hire_date || "" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="accordion-item"
+                  id="adminAccordion"
+                  [formGroup]="frmAdmin"
+                >
+                  <h2 class="accordion-header" id="heightAdmin">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseAdmin"
+                      aria-expanded="false"
+                      aria-controls="collapseAdmin"
+                    >
+                      Admin
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseAdmin"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="heightAdmin"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div *ngIf="getRole == 'ADMIN'" class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label for="manager_flag" class="form-label">
+                            Manager Flag
+                            <span class="required">*</span>
+                            <span
+                              [ngClass]="
+                                employee['admin'].manager_flag !=
+                                responseData['admin']?.manager_flag
+                                  ? 'bi bi-triangle rac-warning-color'
+                                  : ''
+                              "
+                            ></span>
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["admin"].manager_flag || "" }}
+                          </div>
+                          <!-- <ngx-select
+                            [allowClear]="true"
+                            [items]="selectItems"
+                            formControlName="manager_flag"
+                            optionValueField="id"
+                            optionTextField="value"
+                            placeholder="Select"
+                            (select)="onSelectManager()"
+                          >
+                          </ngx-select> -->
+                          <input
+                            type="text"
+                            formControlName="manager_flag"
+                            class="form-control"
+                            id="manager_flag"
+                            [readOnly]="true"
+                          />
+                        </div>
+                        <div class="mb-1">
+                          <label for="review_date" class="form-label">
+                            Review Date
+                          </label>
+                          <div class="fw-bold mb-1">
+                            {{ employee["admin"].review_date || "" }}
+                          </div>
+                          <div class="input-group">
+                            <input
+                              id="review_date"
+                              class="form-control"
+                              placeholder="mm/dd/yyyy"
+                              formControlName="review_date"
+                              ngbDatepicker
+                              [readonly]="true"
+                            />
+                            <!-- <button
+                              (click)="d4.toggle()"
+                              class="btn btn-outline-secondary bi bi-calendar3"
+                              type="button"
+                            ></button> -->
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">EBS User Name</label>
+                          <div class="fw-bold">
+                            {{ employee["admin"].ebs_user_name || "" }}
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="getRole != 'ADMIN'" class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label class="form-label">Manager Flag</label>
+                          <div class="fw-bold">
+                            {{ employee["admin"].manager_flag || "" }}
+                          </div>
+                        </div>
+
+                        <div class="mb-1">
+                          <label class="form-label">Review Date</label>
+                          <div class="fw-bold">
+                            {{ employee["admin"].review_date || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">EBS User Name</label>
+                          <div class="fw-bold">
+                            {{ employee["admin"].ebs_user_name || "" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item" id="systemAccordion">
+                  <h2 class="accordion-header" id="headingSystem">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseSystem"
+                      aria-expanded="false"
+                      aria-controls="collapseSystem"
+                    >
+                      System
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseSystem"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingSystem"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label class="form-label">Last Update Date</label>
+                          <div class="fw-bold">
+                            {{ responseData["system"].last_update_date || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Last Update By</label>
+                          <div class="fw-bold">
+                            {{ responseData["system"].last_updated_by || "" }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item" id="hierDetailsAccordion">
+                  <h2 class="accordion-header" id="headingHierarchyDetails">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseHierarchyDetails"
+                      aria-expanded="false"
+                      aria-controls="collapseHierarchyDetails"
+                    >
+                      Hierarchy Details
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseHierarchyDetails"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingHierarchyDetails"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label class="form-label">Region Dir Name</label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .region_dir_employee_name || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Region Dir Employee ID
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .region_dir_employee_id || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Region Dir Resource Number
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .region_dir_resource_number || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Region Dir Email</label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"].region_dir_email ||
+                                ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Area Dir Name</label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .area_dir_employee_name || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Area Dir Employee ID
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .area_dir_employee_id || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Area Dir Resource Number
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .area_dir_resource_number || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Area Dir Email</label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"].area_dir_email || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Area FOM Name</label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .area_fom_employee_name || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Area FOM Employee ID
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .area_fom_employee_id || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">
+                            Area FOM Resource Number
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"]
+                                .area_fom_resource_number || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label class="form-label">Area FOM Email</label>
+                          <div class="fw-bold">
+                            {{
+                              employee["hierarchy_details"].area_fom_email || ""
+                            }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item" id="changeSystemAccordion">
+                  <h2 class="accordion-header" id="headingChangeSystem">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseChangeSystem"
+                      aria-expanded="false"
+                      aria-controls="collapseChangeSystem"
+                    >
+                      Change System
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseChangeSystem"
+                    class="accordion-collapse collapse show multi-collapse"
+                    aria-labelledby="headingChangeSystem"
+                    data-bs-parent-comment="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="col-sm-12 mb-1">
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Change ID
+                          </label>
+                          <div class="fw-bold">
+                            {{ responseData["change_system"]?.change_id || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Creation Date
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].creation_date || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Change Type
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].change_type || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Change Status
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].change_status || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Requested By
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].requested_by || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Approval Required
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].approval_required ||
+                                ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Approved
+                          </label>
+                          <div class="fw-bold">
+                            {{ responseData["change_system"].approved || "" }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Approved By
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].approved_by || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            CSA Notification Required
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"]
+                                .csa_notification_required || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            CSA Change Comment Log
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"]
+                                .csa_change_comment || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            CSA Notification Complete
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"]
+                                .csa_notification_complete || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Last Edited Date
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].last_edited_date ||
+                                ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Last Edited By
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].last_edited_by || ""
+                            }}
+                          </div>
+                        </div>
+                        <div class="mb-1">
+                          <label
+                            for="formGroupExampleInput2"
+                            class="form-label"
+                          >
+                            Processed Date
+                          </label>
+                          <div class="fw-bold">
+                            {{
+                              responseData["change_system"].processed_date || ""
+                            }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<ng-template #changeSummaryTemplate>
+  <div class="container p-0 m-0" style="max-width: 100%">
+    <div class="row p-0 m-0">
+      <div class="col-sm-12 p-0 m-0">
+        <div class="mb-1" *ngIf="summaryRegion">
+          <label
+            for="region_name"
+            class="form-label"
+            (click)="displayDetail($event, 'hierarchyAccordion')"
+          >
+            <u data-rac-parent-id="btn_hierarchy">Region</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['hierarchy']?.region_name !=
+                responseData['hierarchy']?.region_name
+                  ? 'bi bi-triangle '
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["hierarchy"].region_name || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmHierarchy.value.region }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summaryASN">
+          <label
+            for="areaShort"
+            class="form-label"
+            (click)="displayDetail($event, 'hierarchyAccordion')"
+          >
+            <u data-rac-parent-id="btn_hierarchy">Area Short Name</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['hierarchy']?.area_short_name !=
+                responseData['hierarchy']?.area_short_name
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["hierarchy"].area_short_name || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmHierarchy.value.area_short_name }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="mb-1" *ngIf="summaryManagerEMPId">
+          <label
+            for="manager_employee_id"
+            class="form-label"
+            (click)="displayDetail($event, 'managerAccordion')"
+          >
+            <u data-rac-parent-id="btn_manager">Manager Employee ID</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['manager'].manager_employee_id !=
+                responseData['manager'].manager_employee_id
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["manager"].manager_employee_id || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmManager.value.manager_employee_id }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="mb-1" *ngIf="summaryJobADPCode">
+          <label
+            for="job_adp_code"
+            class="form-label"
+            (click)="displayDetail($event, 'empJobAccordion')"
+          >
+            <u data-rac-parent-id="btn_employee_job">Job ADP Code</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['employee_job_code']?.job_adp_code !=
+                responseData['employee_job_code']?.job_adp_code
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["employee_job_code"].job_adp_code || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmEmpJob.value.job_adp_code }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="mb-1" *ngIf="summaryBO">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+            ><u data-rac-parent-id="btn_service"
+              >Business Org
+              <span class="required">*</span>
+            </u>
+            <span
+              [ngClass]="
+                employee['service'].business_org !=
+                responseData['service'].business_org
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold">
+            {{ employee["service"].business_org || "" }}
+          </div>
+          <input
+            [readonly]="true"
+            type="text"
+            class="form-control"
+            id="business_org"
+            value="{{ this.frmService.value.business_org }}"
+          />
+        </div>
+        <!-- <div class="mb-1" *ngIf="summaryJobType">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+            ><u>Job Type</u></label
+          >
+          <div class="fw-bold">
+            {{ responseData["service"].job_type || "" }}
+          </div>
+        </div> -->
+        <div class="mb-1" *ngIf="summaryTeamType">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+          >
+            <u data-rac-parent-id="btn_service">Team Type</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['service'].team_type !=
+                responseData['service'].team_type
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].team_type || "" }}
+          </div>
+
+          <div class="mb-1">
+            <input
+              type="text"
+              value="{{ this.frmService.value.team_type }}"
+              class="form-control"
+              [readonly]="true"
+            />
+          </div>
+        </div>
+        <div class="mb-1" *ngIf="summaryWS">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+          >
+            <u data-rac-parent-id="btn_service">Work Shift (1st, 2nd, 3rd)</u>
+            <span
+              [ngClass]="
+                employee['service']?.work_shift !=
+                responseData['service']?.work_shift
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].work_shift || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmService.value.work_shift }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summaryOnCall">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+            ><u data-rac-parent-id="btn_service">On Call</u>
+            <span
+              [ngClass]="
+                employee['service']?.on_call != responseData['service']?.on_call
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].on_call || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmService.value.on_call }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summaryOnSite">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+            ><u data-rac-parent-id="btn_service">On Site</u>
+            <span
+              [ngClass]="
+                employee['service']?.on_site != responseData['service']?.on_site
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].on_site || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmService.value.on_site }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summaryDedicated">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+            ><u data-rac-parent-id="btn_service">Dedicated</u>
+            <span
+              [ngClass]="
+                employee['service']?.dedicated !=
+                responseData['service']?.dedicated
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].dedicated || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmService.value.dedicated }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summaryDedicatedTo">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+            ><u data-rac-parent-id="btn_service">Dedicated To</u>
+            <span class="required" *ngIf="isDedicatedTo">*</span>
+            <span
+              [ngClass]="
+                employee['service']?.dedicated_to !=
+                responseData['service']?.dedicated_to
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].dedicated_to || "" }}
+          </div>
+          <input
+            [readonly]="true"
+            type="text"
+            value="{{ this.frmService.value.dedicated_to }}"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summarySA">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+            ><u data-rac-parent-id="btn_service">Service Advantage</u>
+            <span
+              [ngClass]="
+                employee['service']?.service_advantage !=
+                responseData['service']?.service_advantage
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].service_advantage || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmService.value.service_advantage }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="mb-1" *ngIf="summaryFSStatus">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+          >
+            <u data-rac-parent-id="btn_service">FS Status</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['service']?.fs_status !=
+                responseData['service']?.fs_status
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].fs_status || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmService.value.fs_status }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summarySSD" [formGroup]="frmService">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+          >
+            <u data-rac-parent-id="btn_service">Service Start Date</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['service']?.service_start_date !=
+                responseData['service']?.service_start_date
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].service_start_date || "" }}
+          </div>
+          <div class="input-group">
+            <input
+              id="service_start_date"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              formControlName="service_start_date"
+              ngbDatepicker
+              [readonly]="true"
+            />
+          </div>
+        </div>
+        <div class="mb-1" *ngIf="summarySED" [formGroup]="frmService">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+          >
+            <u data-rac-parent-id="btn_service">Service End Date</u>
+            <span
+              [ngClass]="
+                employee['service']?.service_end_date !=
+                responseData['service']?.service_end_date
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].service_end_date || "" }}
+          </div>
+          <div class="input-group">
+            <input
+              id="service_end_date"
+              class="form-control"
+              placeholder="mm/dd/yyyy"
+              formControlName="service_end_date"
+              ngbDatepicker
+              [readonly]="true"
+            />
+          </div>
+        </div>
+        <div class="mb-1" *ngIf="summaryRC">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'serviceAccordion')"
+          >
+            <u data-rac-parent-id="btn_service">Record Complete</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['service']?.record_complete !=
+                responseData['service']?.record_complete
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["service"].record_complete || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmService.value.record_complete }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+
+        <div class="mb-1" *ngIf="summaryASD" [formGroup]="frmHrStatus">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'hrStatusAccordion')"
+            ><u data-rac-parent-id="btn_hr_status">Absence Start Date</u>
+            <span
+              [ngClass]="
+                employee['hr_status']?.absence_start_date !=
+                responseData['hr_status']?.absence_start_date
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold">
+            {{ employee["hr_status"].absence_start_date || "" }}
+          </div>
+          <input
+            [readonly]="true"
+            ngbDatepicker
+            type="text"
+            class="form-control"
+            formControlName="absence_start_date"
+            id="absence_start_date"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summaryAED" [formGroup]="frmHrStatus">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'hrStatusAccordion')"
+            ><u data-rac-parent-id="btn_hr_status">Absence End Date</u></label
+          >
+          <span
+            [ngClass]="
+              employee['hr_status']?.absence_end_date !=
+              responseData['hr_status']?.absence_end_date
+                ? 'bi bi-triangle rac-warning-color'
+                : ''
+            "
+          ></span>
+          <div class="fw-bold">
+            {{ employee["hr_status"].absence_end_date || "" }}
+          </div>
+          <input
+            ngbDatepicker
+            [readonly]="true"
+            type="text"
+            formControlName="absence_end_date"
+            class="form-control"
+            id="absence_end_date"
+          />
+        </div>
+        <div class="mb-1" *ngIf="summaryARTW" [formGroup]="frmHrStatus">
+          <label
+            class="form-label"
+            (click)="displayDetail($event, 'hrStatusAccordion')"
+          >
+            <u data-rac-parent-id="btn_hr_status">Actual Return to Work</u>
+          </label>
+          <span
+            [ngClass]="
+              employee['hr_status']?.actual_return_to_work !=
+              responseData['hr_status']?.actual_return_to_work
+                ? 'bi bi-triangle rac-warning-color'
+                : ''
+            "
+          ></span>
+          <div class="fw-bold">
+            {{ employee["hr_status"].actual_return_to_work || "" }}
+          </div>
+          <input
+            ngbDatepicker
+            formControlName="actual_return_to_work"
+            [readonly]="true"
+            type="text"
+            class="form-control"
+            id="actual_return_to_work"
+          />
+        </div>
+
+        <div class="mb-1" *ngIf="summaryManagerFlag">
+          <label
+            for="manager_flag"
+            class="form-label"
+            (click)="displayDetail($event, 'adminAccordion')"
+          >
+            <u data-rac-parent-id="btn_admin">Manager Flag</u>
+            <span class="required">*</span>
+            <span
+              [ngClass]="
+                employee['admin'].manager_flag !=
+                responseData['admin']?.manager_flag
+                  ? 'bi bi-triangle rac-warning-color'
+                  : ''
+              "
+            ></span>
+          </label>
+          <div class="fw-bold mb-1">
+            {{ employee["admin"].manager_flag || "" }}
+          </div>
+          <input
+            type="text"
+            value="{{ this.frmAdmin.value.manager_flag }}"
+            class="form-control"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

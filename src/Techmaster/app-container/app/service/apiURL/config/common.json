@@ -1,0 +1,9 @@
+{
+    "request": {
+        "GET": [
+            "/api/config/common/dir-list",
+            "/api/config/common/fom-list",
+            "/api/config/common/area-fom"
+        ]
+    }
+}

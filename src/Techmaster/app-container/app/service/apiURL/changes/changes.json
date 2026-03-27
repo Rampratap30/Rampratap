@@ -1,0 +1,17 @@
+{
+    "request": {
+        "GET": [
+            "/api/changes/change-info",
+            "/api/changes/pre-change-id"
+        ],
+        "POST": [
+            "/api/changes/get",
+            "/api/changes/bulk_import"
+        ],
+        "PUT": [
+            "/api/changes/bulk-approved",
+            "/api/changes/bulk-rejected",
+            "/api/changes/update/<int:change_id>"
+        ]
+    }
+}

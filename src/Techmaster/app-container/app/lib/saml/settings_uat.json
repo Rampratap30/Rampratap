@@ -1,0 +1,30 @@
+{
+    "strict": true,
+    "debug": true,
+    "sp": {
+        "entityId": "techmaster-uat",
+        "assertionConsumerService": {
+            "url": "https://techmasteruat.ricohonline.org/sso?acs",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+        },
+        "singleLogoutService": {
+            "url": "https://techmasteruat.ricohonline.org/sso?sls",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+        "x509cert": "",
+        "privateKey": ""
+    },
+    "idp": {
+        "entityId": "https://sts.windows.net/cbdb0d78-6a1f-4b73-98a2-ed310274376c/",
+        "singleSignOnService": {
+            "url": "https://login.microsoftonline.com/cbdb0d78-6a1f-4b73-98a2-ed310274376c/saml2",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "singleLogoutService": {
+            "url": "https://login.microsoftonline.com/cbdb0d78-6a1f-4b73-98a2-ed310274376c/saml2",
+            "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+        },
+        "x509cert": "MIIC8DCCAdigAwIBAgIQbYxOp3QfaYJE1V/WwWrU9jANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQDEylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yMzA3MTcxNzQ1MjlaFw0yNjA3MTcxNzQ1MjlaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQgU1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu5TB0bBp3bYo9K/CJX8mLxGuXQUaa5YBci/jos04kc/dp2YGTgEGeU7kjsbDeZzuJQhxTxN5alo8MkZZQVLLB6WsOEnqgLXFFYlYslVcLJlj0qiSM9AI+u0+twdinlZwA/8/SWaGeEu2D08MMZBvUO7hN7M8vxvikjjj6bS8Mm5Ktbh16iR2Fcl2rmpSLLXA1/b8vSHqj2BykA5mr0HI0LY003T7MB9lLjhlnrnCrWv3ebLDpFLht8JPIrXLvrEpa4u4hY0yvEW/rbOz8r+0Apo4H54Msb3BfYnZBcKz+MIFBbG9MiBrUHXftCkjfd0vxeoyS3jT5aQw3qC+OMi2dQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQCc/kbnvGeqmel+H04kb3r/ju4/35CRN5vZgBhfKHcfqV2AnCQ4TWgtxm6GcOge4swvgzmvzO/8rLtwmaDL9U9II8EZz49a9DPgvLqtEbOmPHcD0w6FNc1b6/XIQfccpw+KfvOCm8KqZeli1lO4BmxnI2DlW1pfAgkS13iAE/YZXmp9qakZXYKDg3qfiSlMYFfHNVOOEd66Qo5z1kx5kWu1fmXHx37yB+PWDRf3VDZPXt07z6mU4Q4fVM4pY2fMCoguYimCY2v4S5Kv3Ph0MlkUMRZ1CFji1h+IMRp01wJXfHcOvKIrtPpQIDAW7kqCH/x+3k9sQcAcjXdrMNZlxJXt"
+    }
+}

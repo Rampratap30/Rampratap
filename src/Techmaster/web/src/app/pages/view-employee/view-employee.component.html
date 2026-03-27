@@ -1,0 +1,1074 @@
+<section class="main">
+  <div class="container p-0 mb-0">
+    <div class="col-sm-12 page-head">
+      <a routerLink="/home" class="page-head-link">Home</a
+      ><span style="font-size: 1.1rem"> > </span
+      ><a href="javascript:void(0);" class="page-head-link">View Employee</a>
+      <span style="font-size: 1.1rem" *ngIf="employee"> > </span
+      ><a href="javascript:void(0);" class="page-head-link" *ngIf="employee">{{
+        employee["employee"]?.employee_name || ""
+      }}</a>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row align-items-start">
+      <div class="col-sm-6 mb-1 p-0">
+        <button
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target=".multi-collapse"
+          aria-expanded="false"
+          aria-controls="collapseEmpMain collapseHierarchy collapseManager collapseEJ collapseService collapseOFSC collapseHrStatus collapseAdmin collapseSystem collapseHierarchyDetails "
+          class="btn btn-outline-danger me-2"
+        >
+          Toggle All
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="onBtRequestChanges(content2)"
+        >
+          Request Changes
+        </button>
+      </div>
+      <div class="col-sm-6 p-0 mb-0 d-flex justify-content-end">
+        <button (click)="goBack()" type="button" class="btn btn-outline-danger">
+          Go Back
+        </button>
+      </div>
+    </div>
+    <div class="row border" *ngIf="employee">
+      <div class="col-sm-2 p-0 m-0">
+        <div class="row borderp-0 m-0">
+          <div class="col-sm-12 p-0 mb-1">
+            <div class="list-group" role="tablist">
+              <button
+                role="tab"
+                type="button"
+                (click)="displayDetail($event, 'employeeAccordion')"
+                class="list-group-item list-group-item-action active"
+              >
+                Employee Main
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'hierarchyAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                Hierarchy
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'managerAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                Manager
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'empJobAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                Employee Job
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'serviceAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                Service
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'ofscAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                OFSC
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'hrStatusAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                HR Status
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'adminAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                Admin
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'systemAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                System
+              </button>
+              <button
+                type="button"
+                (click)="displayDetail($event, 'hierDetailsAccordion')"
+                class="list-group-item list-group-item-action"
+              >
+                Hierarchy Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-10 p-1 m-0">
+        <div
+          class="row overflow-auto"
+          style="height: 70vh"
+          #container
+          id="containerAccordion"
+        >
+          <div class="accordion">
+            <div class="accordion-item" id="employeeAccordion">
+              <h2 class="accordion-header" id="headingEmployeeMain">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseEmpMain"
+                  aria-expanded="false"
+                  aria-controls="collapseEmpMain"
+                >
+                  Employee Main
+                </button>
+              </h2>
+              <div
+                id="collapseEmpMain"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingEmployeeMain"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Employee ID</label>
+                      <div class="fw-bold">
+                        {{ employee["employee"]?.employee_id || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Resource Number</label>
+                      <div class="fw-bold">
+                        {{ employee["employee"]?.resource_number || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Employee Name</label>
+                      <div class="fw-bold">
+                        {{ employee["employee"]?.employee_name || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Employee Email</label>
+                      <div class="fw-bold">
+                        {{ employee["employee"]?.email || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Additional Email</label>
+                      <div class="fw-bold">
+                        {{ employee["ofsc"]?.alternate_email || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Admin Notes</label>
+                      <div class="fw-bold">
+                        {{ employee["employee"]?.admin_notes || "" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="hierarchyAccordion">
+              <h2 class="accordion-header" id="headingHierarchy">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseHierarchy"
+                  aria-expanded="true"
+                  aria-controls="collapseHierarchy"
+                >
+                  Hierarchy
+                </button>
+              </h2>
+              <div
+                id="collapseHierarchy"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingHierarchy"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Region</label>
+                      <div class="fw-bold">
+                        {{ employee["hierarchy"]?.region_name || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area Short</label>
+                      <div class="fw-bold">
+                        {{ employee["hierarchy"]?.area_short_name || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label"
+                        >Region and Area Match to Manager</label
+                      >
+                      <div class="fw-bold">
+                        {{ employee["hierarchy"]?.location_match_to_hr || "" }}
+                        <span
+                          [ngClass]="
+                            employee['hierarchy']?.location_match_to_hr == 'Yes'
+                              ? 'bi bi-check2-circle green-color'
+                              : 'bi bi-x-circle red-color'
+                          "
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion" id="sub-accordionMH">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="sub-headingTwo">
+                        <button
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#sub-collapseMH"
+                          aria-expanded="false"
+                          aria-controls="sub-collapseMH"
+                        >
+                          Manager Hierarchy
+                        </button>
+                      </h2>
+                      <div
+                        id="sub-collapseMH"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="sub-headingTwo"
+                        data-bs-parent="#sub-accordionMH"
+                      >
+                        <div class="accordion-body">
+                          <div class="mb-1">
+                            <label class="form-label">System Region</label>
+                            <div class="fw-bold">
+                              {{
+                                employee["hierarchy"]["system"]
+                                  ?.system_region_name || ""
+                              }}
+                            </div>
+                          </div>
+
+                          <div class="mb-1">
+                            <label class="form-label">System Area Short</label>
+                            <div class="fw-bold">
+                              {{
+                                employee["hierarchy"]["system"]
+                                  ?.system_area_short_name || ""
+                              }}
+                            </div>
+                          </div>
+
+                          <div class="col-sm-12 d-flex justify-content-end">
+                            <button
+                              [disabled]="isHierarchySync"
+                              (click)="onSyncup(content, 'hierarchy')"
+                              type="button"
+                              class="btn btn-outline-danger me-3"
+                              *ngIf="
+                                employee['hierarchy']?.location_match_to_hr ==
+                                  'No' && getRole == 'ADMIN'
+                              "
+                            >
+                              Sync Hierarchy
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="managerAccordion">
+              <h2 class="accordion-header" id="headingTwo">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseManager"
+                  aria-expanded="false"
+                  aria-controls="collapseManager"
+                >
+                  Manager
+                </button>
+              </h2>
+              <div
+                id="collapseManager"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingTwo"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Manager Name</label>
+                      <div class="fw-bold">
+                        {{ employee["manager"]?.manager_name || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Manager Employee ID</label>
+                      <div class="fw-bold">
+                        {{ employee["manager"]?.manager_employee_id || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Manager Resource Number</label>
+                      <div class="fw-bold">
+                        {{ employee["manager"]?.resource_number || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Manager Email</label>
+                      <div class="fw-bold">
+                        {{ employee["manager"]?.email || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Manager Match to HR</label>
+                      <div class="fw-bold">
+                        {{ employee["manager"]?.manager_match_to_hr || "" }}
+                        <span
+                          [ngClass]="
+                            employee['manager']?.manager_match_to_hr == 'Yes'
+                              ? 'bi bi-check2-circle green-color'
+                              : 'bi bi-x-circle red-color'
+                          "
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion" id="sub-accordionManager">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="sub-headingTwoManager">
+                        <button
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#sub-collapseManager"
+                          aria-expanded="false"
+                          aria-controls="sub-collapseManager"
+                        >
+                          System
+                        </button>
+                      </h2>
+                      <div
+                        id="sub-collapseManager"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="sub-headingTwoManager"
+                        data-bs-parent="#sub-accordionManager"
+                      >
+                        <div class="accordion-body">
+                          <div class="mb-1">
+                            <label class="form-label">HR Manager Name</label>
+                            <div class="fw-bold">
+                              {{
+                                employee["manager"]["system"]
+                                  ?.system_manager_name || ""
+                              }}
+                            </div>
+                          </div>
+                          <div class="mb-1">
+                            <label class="form-label"
+                              >HR Manager Employee ID</label
+                            >
+                            <div class="fw-bold">
+                              {{
+                                employee["manager"]["system"]
+                                  ?.system_manager_employee_id || ""
+                              }}
+                            </div>
+                          </div>
+                          <div class="col-sm-12 d-flex justify-content-end">
+                            <button
+                              [disabled]="isManagerSync"
+                              (click)="onSyncup(content, 'manager')"
+                              type="button"
+                              class="btn btn-outline-danger me-3"
+                              *ngIf="
+                                employee['manager']?.manager_match_to_hr ==
+                                  'No' && getRole == 'ADMIN'
+                              "
+                            >
+                              Sync Manager
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item" id="empJobAccordion">
+              <h2 class="accordion-header" id="headingEJ">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseEJ"
+                  aria-expanded="false"
+                  aria-controls="collapseEJ"
+                >
+                  Employee Job
+                </button>
+              </h2>
+              <div
+                id="collapseEJ"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingEJ"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Job Title</label>
+                      <div class="fw-bold">
+                        {{ employee["employee_job_code"]?.job_title || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Job ADP Code</label>
+                      <div class="fw-bold">
+                        {{ employee["employee_job_code"]?.job_adp_code || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Job Type</label>
+                      <div class="fw-bold">
+                        {{ employee["employee_job_code"]?.job_type || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Job Match to HR</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["employee_job_code"]?.job_match_to_hr || ""
+                        }}
+                        <span
+                          [ngClass]="
+                            employee['employee_job_code']?.job_match_to_hr ==
+                            'Yes'
+                              ? 'bi bi-check2-circle green-color'
+                              : 'bi bi-x-circle red-color'
+                          "
+                        ></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="accordion" id="sub-accordionEJ">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="sub-headingEJ">
+                        <button
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#sub-collapseEJ"
+                          aria-expanded="false"
+                          aria-controls="sub-collapseEJ"
+                        >
+                          System
+                        </button>
+                      </h2>
+                      <div
+                        id="sub-collapseEJ"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="sub-headingEJ"
+                        data-bs-parent-comment="#sub-accordionEJ"
+                      >
+                        <div class="accordion-body">
+                          <div class="mb-1">
+                            <label class="form-label">HR Job Title</label>
+                            <div class="fw-bold">
+                              {{
+                                employee["employee_job_code"]["system"]
+                                  ?.system_job_title || ""
+                              }}
+                            </div>
+                          </div>
+
+                          <div class="mb-1">
+                            <label class="form-label">HR Job ADP Code</label>
+                            <div class="fw-bold">
+                              {{
+                                employee["employee_job_code"]["system"]
+                                  ?.system_job_adp_code || ""
+                              }}
+                            </div>
+                          </div>
+                          <div class="col-sm-12 d-flex justify-content-end">
+                            <button
+                              [disabled]="isJobSync"
+                              (click)="onSyncup(content, 'job')"
+                              type="button"
+                              class="btn btn-outline-danger me-3"
+                              *ngIf="
+                                employee['employee_job_code']
+                                  ?.job_match_to_hr == 'No' &&
+                                getRole == 'ADMIN'
+                              "
+                            >
+                              Sync Employee Job
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="serviceAccordion">
+              <h2 class="accordion-header" id="headingService">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseService"
+                  aria-expanded="false"
+                  aria-controls="collapseService"
+                >
+                  Service
+                </button>
+              </h2>
+              <div
+                id="collapseService"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingService"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Business Org</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.business_org || "" }}
+                      </div>
+                    </div>
+
+                    <div class="mb-1">
+                      <label class="form-label">Team Type</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.team_type || "" }}
+                      </div>
+                    </div>
+                    <!-- <div class="mb-1">
+                      <label class="form-label">CIP</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.cip || "" }}
+                      </div>
+                    </div> -->
+                    <div class="mb-1">
+                      <label class="form-label"
+                        >Work Shift (1st, 2nd, 3rd)</label
+                      >
+                      <div class="fw-bold">
+                        {{ employee["service"]?.work_shift || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">On Call</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.on_call || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">On Site</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.on_site || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Dedicated</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.dedicated || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Dedicated To</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.dedicated_to || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Service Advantage</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.service_advantage || "" }}
+                      </div>
+                    </div>
+
+                    <div class="mb-1">
+                      <label class="form-label">Contingent Workers (Y/N)</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.contingent_worker || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">FS Status</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.fs_status || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Service Start Date</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.service_start_date || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Service End Date</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.service_end_date || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Record Complete</label>
+                      <div class="fw-bold">
+                        {{ employee["service"]?.record_complete || "" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="ofscAccordion">
+              <h2 class="accordion-header" id="headingOFSC">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseOFSC"
+                  aria-expanded="false"
+                  aria-controls="collapseOFSC"
+                >
+                  OFSC
+                </button>
+              </h2>
+              <div
+                id="collapseOFSC"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingOFSC"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">OFSC Status</label>
+                      <div class="fw-bold">
+                        {{ employee["ofsc"]?.status || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Additional Email</label>
+                      <div class="fw-bold">
+                        {{ employee["ofsc"]?.alternate_email || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">OFSC Production Print</label>
+                      <div class="fw-bold">
+                        {{ employee["ofsc"].production_print || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">OFSC Last Login</label>
+                      <div class="fw-bold">
+                        {{ employee["ofsc"]?.last_login || "" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="hrStatusAccordion">
+              <h2 class="accordion-header" id="headingHrStatus">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseHrStatus"
+                  aria-expanded="false"
+                  aria-controls="collapseHrStatus"
+                >
+                  HR Status
+                </button>
+              </h2>
+              <div
+                id="collapseHrStatus"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingHrStatus"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Actual Termination Date</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hr_status"]?.actual_termination_date || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">HR Status</label>
+                      <div class="fw-bold">
+                        {{ employee["hr_status"]?.hr_status || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Absence Start Date</label>
+                      <div class="fw-bold">
+                        {{ employee["hr_status"]?.absence_start_date || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Absence End Date</label>
+                      <div class="fw-bold">
+                        {{ employee["hr_status"]?.absence_end_date || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Actual Return to Work</label>
+                      <div class="fw-bold">
+                        {{ employee["hr_status"]?.actual_return_to_work || "" }}
+                      </div>
+                    </div>
+
+                    <div class="mb-1">
+                      <label class="form-label">Last Hire Date</label>
+                      <div class="fw-bold">
+                        {{ employee["hr_status"]?.last_hire_date || "" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="adminAccordion">
+              <h2 class="accordion-header" id="headingAdmin">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseAdmin"
+                  aria-expanded="false"
+                  aria-controls="collapseAdmin"
+                >
+                  Admin
+                </button>
+              </h2>
+              <div
+                id="collapseAdmin"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingAdmin"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Manager Flag</label>
+                      <div class="fw-bold">
+                        {{ employee["admin"]?.manager_flag || "" }}
+                      </div>
+                    </div>
+
+                    <div class="mb-1">
+                      <label class="form-label">Review Date</label>
+                      <div class="fw-bold">
+                        {{ employee["admin"]?.review_date || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">EBS User Name</label>
+                      <div class="fw-bold">
+                        {{ employee["admin"]?.ebs_user_name || "" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="systemAccordion">
+              <h2 class="accordion-header" id="headingSystem">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseSystem"
+                  aria-expanded="false"
+                  aria-controls="collapseSystem"
+                >
+                  System
+                </button>
+              </h2>
+              <div
+                id="collapseSystem"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingSystem"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Last Update Date</label>
+                      <div class="fw-bold">
+                        {{ employee["system"]?.last_update_date || "" }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Last Update By</label>
+                      <div class="fw-bold">
+                        {{ employee["system"]?.last_updated_by || "" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item" id="hierDetailsAccordion">
+              <h2 class="accordion-header" id="headingHierarchyDetails">
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapseHierarchyDetails"
+                  aria-expanded="false"
+                  aria-controls="collapseHierarchyDetails"
+                >
+                  Hierarchy Details
+                </button>
+              </h2>
+              <div
+                id="collapseHierarchyDetails"
+                class="accordion-collapse collapse show multi-collapse"
+                aria-labelledby="headingHierarchyDetails"
+              >
+                <div class="accordion-body">
+                  <div class="col-sm-12 mb-1">
+                    <div class="mb-1">
+                      <label class="form-label">Region Dir Name</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]
+                            ?.region_dir_employee_name || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Region Dir Employee ID</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]
+                            ?.region_dir_employee_id || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label"
+                        >Region Dir Resource Number</label
+                      >
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]
+                            ?.region_dir_resource_number || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Region Dir Email</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]?.region_dir_email || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area Dir Name</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]
+                            ?.area_dir_employee_name || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area Dir Employee ID</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]?.area_dir_employee_id ||
+                            ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area Dir Resource Number</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]
+                            ?.area_dir_resource_number || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area Dir Email</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]?.area_dir_email || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area FOM Name</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]
+                            ?.area_fom_employee_name || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area FOM Employee ID</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]?.area_fom_employee_id ||
+                            ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area FOM Resource Number</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]
+                            ?.area_fom_resource_number || ""
+                        }}
+                      </div>
+                    </div>
+                    <div class="mb-1">
+                      <label class="form-label">Area FOM Email</label>
+                      <div class="fw-bold">
+                        {{
+                          employee["hierarchy_details"]?.area_fom_email || ""
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #content2 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Request Changes - {{ employee["employee"]?.employee_name || "" }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="col-lg-12">
+      <button type="button" class="btn btn btn-outline-danger mb-3">
+        <a routerLink="{{ '/editEmployee/' + encoded_employee_id }}">Add</a>
+      </button>
+      <span style="font-weight: bolder">
+        HR Status : {{ employee["hr_status"]?.hr_status || "" }}
+      </span>
+      <ag-grid-angular
+        style="height: 400px; width: 100%"
+        class="ag-theme-alpine"
+        [columnDefs]="columnDefsR"
+        [defaultColDef]="defaultColDef"
+        rowModelType="infinite"
+        [rowSelection]="rowSelectionDialog"
+        [rowData]="rowDataR"
+        (selectionChanged)="onSelectionChangedChangeR($event)"
+        (gridReady)="onGridReadyChangeR($event)"
+      ></ag-grid-angular>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Sync Up - {{ selected_syncup_type }}
+    </h4>
+    <button
+      (click)="modal.dismiss('Cross click')"
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="col-lg-12">
+      <form
+        [formGroup]="frmSyncUp"
+        (ngSubmit)="onSubmitSyncUp()"
+        autocomplete="off"
+      >
+        <div class="row mb-1">
+          <label for="eDate" class="col-sm-4 col-form-label">
+            Effective Date
+          </label>
+          <div class="col-sm-8">
+            <div class="input-group">
+              <input
+                #d="ngbDatepicker"
+                id="eDate"
+                class="form-control"
+                placeholder="mm/dd/yyyy"
+                name="dp"
+                formControlName="eDate"
+                ngbDatepicker
+              />
+              <button
+                (click)="d.toggle()"
+                class="btn btn-outline-secondary bi bi-calendar3"
+                type="button"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-danger me-3"
+      (click)="onSubmitSyncUp()"
+      [disabled]="frmSyncUp.invalid"
+    >
+      Submit
+    </button>
+    <button
+      (click)="modal.close('Save click')"
+      type="button"
+      class="btn btn-danger"
+    >
+      Cancel
+    </button>
+  </div>
+</ng-template>

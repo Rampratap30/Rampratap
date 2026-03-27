@@ -1,0 +1,17 @@
+{
+    "tables": [
+        "RAC_FS_TM_REGION",
+        "RAC_FS_TM_AREA",
+        "RAC_FS_TM_LOC",
+        "RAC_FS_TM_JOB_CODE",
+        "RAC_FS_TM_TEAM_TYPE",
+        "RAC_FS_TM_EMPLOYEE_UPD",
+        "RAC_FS_TM_EMPLOYEE_DTLS",
+        "RAC_FS_TM_OFSC_DTLS",
+        "RAC_HR_TM_EMPLOYEE_DTLS",
+        "RAC_FS_TM_LOGS",
+        "RAC_FS_TM_SYNC_LOGS",
+        "RAC_FS_TM_NOTIF",
+        "RAC_FS_TM_USER_DETAILS"
+    ]
+}

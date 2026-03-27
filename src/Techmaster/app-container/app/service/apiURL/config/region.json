@@ -1,0 +1,16 @@
+{
+    "request": {
+        "POST": [
+            "/api/config/region/add"
+        ],
+        "GET": [
+            "/api/config/region/get_count",
+            "/api/config/region/get",
+            "/api/config/region/get/<int:region_id>"
+        ],
+        "PUT": [
+            "/api/config/region/update/<int:region_id>",
+            "/api/config/region/update/bulk-delete"
+        ]
+    }
+}

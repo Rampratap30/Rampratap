@@ -1,0 +1,184 @@
+<section class="main">
+  <div>
+    <ngx-spinner
+      [fullScreen]="true"
+      bdColor="rgba(0, 0, 0, 0.8)"
+      size="medium"
+      color="#dc3545"
+      type="timer"
+    >
+      <p style="color: white">Loading...</p>
+    </ngx-spinner>
+  </div>
+  <div class="container mb-2">
+    <div class="col-sm-12 page-head">
+      <a routerLink="/views" class="page-head-link-active">Views</a
+      ><span style="font-size: 1.1rem"> > </span>
+    </div>
+  </div>
+  <div class="container mb-2">
+    <scrollable-tabs
+      [tabs]="tabs"
+      (emitSelectedTab)="selectedTab($event)"
+    ></scrollable-tabs>
+  </div>
+  <div class="container mb-2">
+    <div class="col-sm-12 bg-white c-border p-3 mb-2">
+      <form [formGroup]="frm" (ngSubmit)="onSearchSubmit()" autocomplete="off">
+        <div class="row">
+          <div class="col-sm-6 d-flex mb-2 ps-4">
+            <label for="inputEmployeeName" class="col-sm-3 col-form-label p-2"
+              >Employee</label
+            >
+            <div class="col-sm-7">
+              <input
+                type="text"
+                class="form-control"
+                id="inputEmployeeName"
+                formControlName="empName"
+              />
+            </div>
+          </div>
+          <div class="col-sm-6 d-flex mb-2 ps-4">
+            <label for="inputJobType" class="col-sm-3 col-form-label p-2"
+              >Job Type</label
+            >
+            <div class="col-sm-7">
+              <ngx-select
+                formControlName="jobType"
+                [allowClear]="true"
+                [items]="job_types"
+                optionValueField="optionId"
+                optionTextField="optionTitle"
+                placeholder="Select"
+                id="inputJobType"
+              >
+              </ngx-select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 d-flex mb-2 ps-4">
+            <label for="inputHRStatus" class="col-sm-3 col-form-label"
+              >HR Status</label
+            >
+            <div class="col-sm-7">
+              <ngx-select
+                formControlName="empStatus"
+                [allowClear]="true"
+                [items]="empStatus"
+                optionValueField="id"
+                optionTextField="value"
+                placeholder="Select"
+                id="inputHRStatus"
+              >
+              </ngx-select>
+            </div>
+          </div>
+          <div class="col-sm-6 d-flex mb-2 ps-4">
+            <label for="inputFSStatus" class="col-sm-3 col-form-label"
+              >FS Status</label
+            >
+            <div class="col-sm-7">
+              <ngx-select
+                formControlName="fsStatus"
+                [allowClear]="true"
+                [items]="fsStatusDropDown"
+                optionValueField="id"
+                optionTextField="value"
+                placeholder="Select"
+                id="inputFSStatus"
+              >
+              </ngx-select>
+            </div>
+          </div>
+          <div class="col-sm-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-danger me-3">
+              Search
+            </button>
+            <button
+              (click)="clearData()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+            >
+              Reset
+            </button>
+            <button
+              (click)="downloadCSV()"
+              type="button"
+              class="btn btn-outline-danger"
+            >
+              Export View to CSV
+            </button>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-sm-12 d-flex justify-content-center mb-2">
+            <label for="inputEmployeeName" class="col-sm-1 col-form-label"
+              >Employee</label
+            >
+            <div class="col-sm-3">
+              <input
+                type="text"
+                class="form-control"
+                id="inputEmployeeName"
+                formControlName="empName"
+              />
+            </div>
+          </div>
+          <div class="col-sm-12 d-flex justify-content-center mb-2">
+            <label for="inputEmployeeName" class="col-sm-1 col-form-label"
+              >HR Status</label
+            >
+            <div class="col-sm-3">
+              <ngx-select
+                formControlName="empStatus"
+                [allowClear]="true"
+                [items]="empStatus"
+                optionValueField="id"
+                optionTextField="value"
+                placeholder="Select"
+              >
+              </ngx-select>
+            </div>
+          </div> 
+          <div class="col-sm-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-danger me-3">
+              Search
+            </button>
+            <button
+              (click)="clearData()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+            >
+              Reset
+            </button>
+            <button
+              (click)="downloadCSV()"
+              type="button"
+              class="btn btn-outline-danger"
+            >
+              Export View to CSV
+            </button>
+          </div>
+        </div> -->
+      </form>
+    </div>
+  </div>
+  <div class="container mb-2">
+    <ag-grid-angular
+      style="width: 100%"
+      domLayout="autoHeight"
+      class="ag-theme-alpine"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [gridOptions]="gridOptions"
+      [pagination]="true"
+      (gridReady)="onGridReady($event)"
+      [paginationPageSize]="defaultPageSize"
+      [cacheBlockSize]="defaultPageSize"
+      [enableRangeSelection]="true"
+    >
+    </ag-grid-angular>
+  </div>
+</section>

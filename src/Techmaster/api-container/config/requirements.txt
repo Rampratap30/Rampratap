@@ -1,0 +1,14 @@
+gunicorn==20.0.4
+Flask
+Flask_restful
+flask-cors
+Flask-SQLAlchemy
+requests
+jsonschema
+PyMySQL
+boto3
+SQLAlchemy
+mysql-connector-python
+python-dotenv
+pydantic
+python-jose

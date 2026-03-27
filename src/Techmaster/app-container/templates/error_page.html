@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Internal Server Error</title>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+  </head>
+
+  <body>
+    <h1>
+      <p>Internal Server Error</p>
+    </h1>
+    <h1>
+      <p>Please contact system admin.</p>
+    </h1>
+    <div>
+      {% if errors %}
+      <div>
+        <strong>Errors:</strong>
+        <ul>
+          {% for err in errors %}
+          <li>{{err}}</li>
+          {% endfor %}
+        </ul>
+        {% if error_reason %}
+        <span>{{error_reason}}</span>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+    "request": {
+        "POST": [
+            "/api/config/notificaion_set_up/add"
+        ],
+        "GET": [
+            "/api/config/notificaion_set_up/get_count",
+            "/api/config/notificaion_set_up/get",
+            "/api/config/notificaion_set_up/get/<int:notification_id>"
+        ],
+        "PUT": [
+            "/api/config/notificaion_set_up/update/<int:notification_id>",
+            "/api/config/notificaion_set_up/update/bulk-delete"
+        ]
+    }
+}

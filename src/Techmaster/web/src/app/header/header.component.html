@@ -1,0 +1,39 @@
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <nav id="sidebar">
+    <div id="dismiss">
+      <i class="bi bi-arrow-left"></i>
+    </div>
+    <div class="sidebar-header">
+      <h3><img width="90" alt="Logo" src="assets/img/RicohLogo.png" /></h3>
+    </div>
+    <ul class="list-unstyled components">
+      <!--<strong class="title">TECH MASTER</strong>-->
+      <li *ngFor="let item of menuItems" class="menu-item">
+        <a
+          routerLink="/{{ item.href }}"
+          *ngIf="this.getRole == item?.role || item?.role == 'ALL'"
+        >
+          {{ item.label }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <button type="button" id="sidebarCollapse" class="btn btn-info menu-icon">
+        <i class="bi bi-list icon fs-5"></i>
+      </button>
+      <a class="navbar-brand ps-3" href="/"
+        ><img width="90" alt="Logo" src="assets/img/RicohLogo.png"
+      /></a>
+      <span class="text"><strong>Tech Master</strong></span>
+      <i class="bi bi-person-circle fs-3"></i>
+      <span class="text1">{{ getUserInfo?.data?.userName }}</span>
+      <span class="logout"
+        ><a href="{{ logout }}"><i class="bi bi-box-arrow-right fs-3"></i></a
+      ></span>
+    </div>
+  </nav>
+</div>
+<div class="overlay"></div>

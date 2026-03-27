@@ -1,0 +1,412 @@
+<section class="main">
+  <div class="container mb-2">
+    <div class="col-sm-12 page-head">
+      <a routerLink="/changes" class="page-head-link-active">Changes</a
+      ><span style="font-size: 1.1rem"> > </span>
+    </div>
+  </div>
+  <div class="container mb-2">
+    <div class="col-sm-12 bg-white c-border p-3 mb-2">
+      <form [formGroup]="frm" (ngSubmit)="onSearchSubmit()" autocomplete="off">
+        <div class="row">
+          <div class="col-sm-6 ps-4 mb-2">
+            <div class="row mb-2">
+              <label for="inputManagerName" class="col-sm-4 col-form-label"
+                >Manager Name</label
+              >
+              <div class="col-sm-6 pe-0">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputManagerName"
+                  formControlName="managerName"
+                />
+              </div>
+              <div class="col-sm-2">
+                <button
+                  (click)="openSearchDialogManager('managerName')"
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop1"
+                >
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="FromDate" class="col-sm-4 col-form-label"
+                >From Effective Date
+              </label>
+              <div class="col-sm-7 pe-0">
+                <div class="dp-hidden position-absolute">
+                  <div class="input-group">
+                    <input
+                      style="padding-left: 0px"
+                      name="datepicker"
+                      class="form-control"
+                      ngbDatepicker
+                      #datepicker="ngbDatepicker"
+                      [autoClose]="'outside'"
+                      (dateSelect)="onDateSelection($event)"
+                      [displayMonths]="2"
+                      [dayTemplate]="t"
+                      outsideDays="hidden"
+                      [startDate]="fromDate!"
+                      tabindex="-1"
+                    />
+                    <ng-template #t let-date let-focused="focused">
+                      <span
+                        class="custom-day"
+                        [class.focused]="focused"
+                        [class.range]="isRange(date)"
+                        [class.faded]="isHovered(date) || isInside(date)"
+                        (mouseenter)="hoveredDate = date"
+                        (mouseleave)="hoveredDate = null"
+                      >
+                        {{ date.day }}
+                      </span>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <input
+                    #dpFromDate
+                    formControlName="fromDate"
+                    class="form-control"
+                    placeholder="mm/dd/yyyy"
+                    name="dpFromDate"
+                    [value]="formatter.format(fromDate)"
+                    (input)="
+                      fromDate = validateInput(fromDate, dpFromDate.value)
+                    "
+                  />
+                  <button
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="datepicker.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="inputStatus" class="col-sm-4 col-form-label"
+                >Change Status</label
+              >
+              <div class="col-sm-7 pe-0">
+                <ngx-select
+                  formControlName="status"
+                  [allowClear]="true"
+                  [items]="status"
+                  optionValueField="id"
+                  optionTextField="value"
+                  placeholder="Select"
+                >
+                </ngx-select>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="inputChangeID" class="col-sm-4 col-form-label"
+                >Change ID</label
+              >
+              <div class="col-sm-7 pe-0">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="inputChangeID"
+                  formControlName="changeID"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 mb-2">
+            <div class="row">
+              <label for="inputEmployeeName" class="col-sm-4 col-form-label"
+                >Employee</label
+              >
+              <div class="col-sm-6 pe-0">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputEmployeeName"
+                  formControlName="empName"
+                />
+              </div>
+              <div class="col-sm-2">
+                <button
+                  (click)="openSearchDialog('empName')"
+                  type="button"
+                  class="btn btn-danger mb-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                >
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="toDate" class="col-sm-4 col-form-label"
+                >To Effective Date
+              </label>
+              <div class="col-sm-7 pe-0">
+                <div class="input-group">
+                  <input
+                    #dpToDate
+                    formControlName="toDate"
+                    class="form-control"
+                    placeholder="mm/dd/yyyy"
+                    name="dpToDate"
+                    [value]="formatter.format(toDate)"
+                    (input)="toDate = validateInput(toDate, dpToDate.value)"
+                  />
+                  <button
+                    class="btn btn-outline-secondary bi bi-calendar3"
+                    (click)="datepicker.toggle()"
+                    type="button"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="inputChangeType" class="col-sm-4 col-form-label"
+                >Request Type</label
+              >
+              <div class="col-sm-7 pe-0" *ngIf="getRole == 'ADMIN'">
+                <ngx-select
+                  formControlName="requestType"
+                  [allowClear]="true"
+                  [items]="requestType"
+                  optionValueField="id"
+                  optionTextField="value"
+                  placeholder="Select"
+                >
+                </ngx-select>
+              </div>
+              <div class="col-sm-7 pe-0" *ngIf="getRole != 'ADMIN'">
+                <ngx-select
+                  formControlName="requestType"
+                  [allowClear]="true"
+                  [items]="requestTypeManager"
+                  optionValueField="id"
+                  optionTextField="value"
+                  placeholder="Select"
+                >
+                </ngx-select>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="inputRequestedBy" class="col-sm-4 col-form-label"
+                >Requested By</label
+              >
+              <div class="col-sm-7 pe-0">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="inputRequestedBy"
+                  formControlName="requestedBy"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-danger me-3">
+              Search
+            </button>
+            <button
+              (click)="clearData()"
+              type="button"
+              class="btn btn-outline-danger me-3"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="container">
+    <hr class="mb-2 mt-2" />
+    <div class="col-sm-12 mb-2">
+      <button
+        type="button"
+        (click)="onApprove()"
+        class="btn btn-outline-danger me-3"
+        [disabled]="isARDisabled"
+        *ngIf="getRole == 'ADMIN'"
+      >
+        Approve
+      </button>
+      <button
+        type="button"
+        (click)="onReject()"
+        class="btn btn-outline-danger me-3"
+        [disabled]="isARDisabled"
+        *ngIf="getRole == 'ADMIN'"
+      >
+        Reject
+      </button>
+      <button
+        *ngIf="getRole == 'ADMIN'"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdropImport"
+        class="btn btn-outline-danger"
+      >
+        Bulk Import
+      </button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="col-lg-12">
+      <ag-grid-angular
+        style="width: 100%"
+        domLayout="autoHeight"
+        class="ag-theme-alpine"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [gridOptions]="gridOptions"
+        [pagination]="true"
+        (gridReady)="onGridReady($event)"
+        [paginationPageSize]="defaultPageSize"
+        [cacheBlockSize]="defaultPageSize"
+        (selectionChanged)="onSelectionChanged($event)"
+        [suppressRowClickSelection]="true"
+        [rowSelection]="rowSelection"
+        [enableCellTextSelection]="true"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</section>
+
+<div
+  class="modal fade"
+  id="staticBackdrop1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Managers List</h5>
+        <button
+          type="button"
+          class="btn-close"
+          #closebuttonm
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-lg-12">
+          <ag-grid-angular
+            style="width: 100%"
+            domLayout="autoHeight"
+            class="ag-theme-alpine"
+            [pagination]="true"
+            [paginationPageSize]="defaultDialogSize"
+            [cacheBlockSize]="defaultDialogSize"
+            [columnDefs]="managercolumnDefs"
+            [defaultColDef]="defaultColDef"
+            rowModelType="infinite"
+            [rowSelection]="rowSelectionDialog"
+            [rowData]="managerData"
+            (selectionChanged)="onSelectionChangedDialogM($event)"
+            [enableCellTextSelection]="true"
+            (gridReady)="onGridReadyDialogM($event)"
+          ></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Employee List</h5>
+        <button
+          type="button"
+          class="btn-close"
+          #closebutton
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-lg-12">
+          <ag-grid-angular
+            style="width: 100%"
+            domLayout="autoHeight"
+            class="ag-theme-alpine"
+            [pagination]="true"
+            [paginationPageSize]="defaultDialogSize"
+            [cacheBlockSize]="defaultDialogSize"
+            [columnDefs]="employeecolumnDefs"
+            [defaultColDef]="defaultColDef"
+            rowModelType="infinite"
+            [rowSelection]="rowSelectionDialog"
+            [rowData]="employeeData"
+            (selectionChanged)="onSelectionChangedDialog($event)"
+            (gridReady)="onGridReadyDialog($event)"
+          ></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="staticBackdropImport"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Bulk Import</h5>
+        <button
+          type="button"
+          class="btn-close"
+          #closebutton
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-lg-12">
+          <div class="text-center">
+            <input
+              class="form-control"
+              type="file"
+              accept=".csv"
+              (change)="onChange($event)"
+              #fileUploader
+            />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="onUpload()" class="btn btn-danger me-3">
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

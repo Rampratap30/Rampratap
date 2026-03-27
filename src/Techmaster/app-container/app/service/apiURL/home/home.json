@@ -1,0 +1,16 @@
+{
+    "request": {
+        "POST": [
+            "/api/home/manager_transfer",
+            "/api/home/bulk_export",
+            "/api/home/update_user_login"
+        ],
+        "GET": [
+            "/api/home/get_manager_list",
+            "/api/home/get_employee_list",
+            "/api/home/get",
+            "/api/home/get_change_request",
+            "/api/home/get_manager_list_dropdown"
+        ]
+    }
+}

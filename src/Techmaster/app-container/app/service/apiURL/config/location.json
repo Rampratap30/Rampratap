@@ -1,0 +1,8 @@
+{
+    "request": {
+        "GET": [
+            "/api/config/location/get_count",
+            "/api/config/location/get"
+        ]
+    }
+}

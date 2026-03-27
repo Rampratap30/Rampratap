@@ -1,0 +1,16 @@
+{
+    "request": {
+        "POST": [
+            "/api/config/job-code/add"
+        ],
+        "GET": [
+            "/api/config/job-code/get_count",
+            "/api/config/job-code/get",
+            "/api/config/job-code/get/<int:job_id>"
+        ],
+        "PUT": [
+            "/api/config/job-code/update/<int:job_id>",
+            "/api/config/job-code/update/bulk-delete"
+        ]
+    }
+}

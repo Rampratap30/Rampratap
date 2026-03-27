@@ -1,0 +1,16 @@
+{
+    "request": {
+        "GET": [
+            "/api/view/get_new_hire_list",
+            "/api/view/get_recent_term_list",
+            "/api/view/get_hierarchy_mismatches_list",
+            "/api/view/get_job_mismatches_list",
+            "/api/view/get_manager_mismatches_list",
+            "/api/view/get_all_mismatches_list",
+            "/api/view/get_record_not_complete_list",
+            "/api/view/get_admin_review_list",
+            "/api/view/get_managers_not_self_list",
+            "/api/view/get_loa_list"
+        ]
+    }
+}

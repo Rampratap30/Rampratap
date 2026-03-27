@@ -1,0 +1,21 @@
+.f-heading {
+    font-size: 1rem;
+    font-weight: 500;
+}
+.accordion-button:not(.collapsed) {
+    background-color: #fff;
+    border: 1px solid #dc3545;
+    color: #212529;
+    font-weight: bold;
+    
+}
+.accordion-button:focus{
+    box-shadow: 0 0 0 0.1rem rgb(217 30 72 / 22%)
+} 
+.accordion-content{
+    margin: 0 auto;
+}
+.accordion-button{
+    text-transform: uppercase;
+    font-weight: 600;
+}
