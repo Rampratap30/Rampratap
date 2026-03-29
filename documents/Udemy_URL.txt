@@ -6,3 +6,9 @@
 ----
 https://www.baeldung.com/cs/saga-pattern-microservices
 
+How To Migrate From Monolithic To Microservices
+https://medium.com/@puneet.vyas/how-to-migrate-from-monolithic-to-microservices-part-i-bd0645a7c529
+
+Microservice Resilience & Fault Tolerance: Strategies & Different Patterns
+https://www.sayonetech.com/blog/microservice-resilience/
+
