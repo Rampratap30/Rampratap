@@ -6,13 +6,18 @@ public class Problem {
 
     public static void main(String[] args) {
 
-        Scanner in = new Scanner(System.in);
+//        Scanner in = new Scanner(System.in);
+//
+//        // input for textInput
+//        String textInput = in.nextLine();
+//
+//        int result = editorMiss(textInput);
+//        System.out.print(result);
+        String s = "abc";
+        String s1 ="abcdef";
 
-        // input for textInput
-        String textInput = in.nextLine();
-
-        int result = editorMiss(textInput);
-        System.out.print(result);
+        System.out.println(s.equalsIgnoreCase(s1));
+        System.out.println(s == s1);
     }
 
     private static int editorMiss(String textInput) {

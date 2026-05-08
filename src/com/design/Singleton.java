@@ -18,7 +18,6 @@ public class Singleton {
 	
 	
 	//double checking locking
-	
 	private static volatile Singleton _instance;
 	
 	public String value;

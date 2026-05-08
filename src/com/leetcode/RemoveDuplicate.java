@@ -11,10 +11,23 @@ public class RemoveDuplicate {
         List<Integer> integersList = Arrays.stream(a).boxed().collect(Collectors.toList());
         System.out.println(integersList);
 
-        List<Integer> sorted = integersList.stream().sorted().collect(Collectors.toList());
+        //For sorting
+        List<Integer> sorted = integersList.stream().distinct().sorted().collect(Collectors.toList());
         System.out.println(sorted);
 
-        List<Integer> removed = sorted.stream().distinct().collect(Collectors.toList());
-        System.out.println(removed);
+        int[] nums ={3,2,2,3};
+        int result = removeElement(nums,3);
+
+        System.out.println(result);
+    }
+
+    public static int removeElement(int[] nums, int val) {
+        int k = 0;
+        for (int x : nums) {
+            if (x != val) {
+                nums[k++] = x;
+            }
+        }
+        return k;
     }
 }

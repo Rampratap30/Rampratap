@@ -13,11 +13,10 @@ public class FindClosestNumber {
 
     private static void sum(int[] arr, int i, int sum, int target, String valueOf) {
 
-
         for(int j = i+1; j<arr.length; j++)
         {
             if(sum+arr[j] == target){
-                    System.out.println(valueOf+" "+String.valueOf(arr[j]));
+                System.out.println(valueOf+" "+String.valueOf(arr[j]));
             }else{
                 sum(arr, j, sum+arr[j],target,valueOf+" "+String.valueOf(arr[j]));
             }

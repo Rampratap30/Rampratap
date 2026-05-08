@@ -1,8 +1,6 @@
 package com.interview;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ParseMephasisInput {
@@ -35,6 +33,23 @@ public class ParseMephasisInput {
 	        // Output: {car=800000, Mobile=10000, Bike=200000}
 	        System.out.println(itemPrices);
 
+
+			/*---------------------------------------------------------------------------*/
+
+
+		String s= "naga Balaji reddy";
+		String[] sp = s.split(" ");
+		System.out.println(sp[2]+" "+sp[1]+" "+sp[0]);
+
+		int[] arr = {1,2,3,4,5,6};
+		List<Integer> list = Arrays.stream(arr).boxed().collect(Collectors.toList());
+		System.out.println(list);
+		Collections.reverse(list);
+		System.out.println(list);
+
+		int n=arr.length;
+		for(int i=n-1; i>=0; i--)
+			System.out.print(arr[i]+" ");
 	}
 
 }

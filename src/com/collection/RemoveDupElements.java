@@ -50,11 +50,11 @@ public class RemoveDupElements {
         for(int i = 0; i < array.length; i++) {  
             for(int j = i + 1; j < array.length; j++) {  
                 if(array[i] == array[j])  
-                    System.out.println(array[j]);  
+                    System.out.print(array[j]+" ");
             }  
-        } 
-		
-		
+        }
+		System.out.println();
+		System.out.println("--------------------------- ");
 		//get the ArrayList with duplicate values
 		ArrayList<Integer> list = new ArrayList<>(Arrays.asList(1, 10, 1, 2, 2, 3, 3, 10, 3, 4, 5, 5));
 		

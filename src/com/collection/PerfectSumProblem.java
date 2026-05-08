@@ -20,9 +20,9 @@ public class PerfectSumProblem {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		int[] numbers = {6,3,8,10,1};
+		int[] numbers = {1,2,3,4,5,6};
 		
-		int targetVal = 4;
+		int targetVal = 10;
 	    for(int i =0; i<numbers.length; i++){
 	        sum(numbers, i, numbers[i], targetVal, String.valueOf(numbers[i])); 
 	    }

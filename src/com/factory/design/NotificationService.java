@@ -6,7 +6,7 @@ public class NotificationService {
 	//factory method in the interface lets a class defer the instantiation to one or more concrete subclasses.
 	public static void main(String[] args) {
 		NotificationFactory notificationFactory = new NotificationFactory();
-		Notification notification  = notificationFactory.createNotification("EMAIL");
+		Notification notification  = notificationFactory.createNotification("SMS");
 		notification.notifyUser();
 	}
 }

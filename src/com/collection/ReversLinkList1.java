@@ -8,11 +8,11 @@ public class ReversLinkList1 {
         // Declaring linkedlist without any initial size
         LinkedList<Integer> linkedli = new LinkedList<Integer>();
         // Appending elements at the end of the list
-        linkedli.add(new Integer(1));
-        linkedli.add(new Integer(2));
-        linkedli.add(new Integer(3));
-        linkedli.add(new Integer(4));
-        linkedli.add(new Integer(5));
+        linkedli.add(1);
+        linkedli.add(2);
+        linkedli.add(3);
+        linkedli.add(4);
+        linkedli.add(5);
         System.out.print("Elements before reversing: " + linkedli);
        // linkedli = reverseLinkedList(linkedli);
         Collections.reverse(linkedli);

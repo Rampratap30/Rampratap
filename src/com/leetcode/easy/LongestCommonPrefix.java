@@ -3,7 +3,7 @@ package com.leetcode.easy;
 public class LongestCommonPrefix {
 
 	public static void main(String[] args) {
-		String [] arr = {"flower","flow","flight"};
+		String [] arr = {"dog","racecar","car"};
 	        
         String result = longestCommPre(arr);
         System.out.println(result);
